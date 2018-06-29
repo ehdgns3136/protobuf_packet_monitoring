@@ -1,0 +1,7093 @@
+option java_package = "server.network";
+
+message Packet {
+    extensions 100 to max;
+
+    enum Type {
+        Login = 100;
+        LoginResult = 101;
+
+        Ping = 102;
+
+        JoinRoom = 103;
+        JoinRoomResult = 104;
+
+        GetRooms = 105;
+        GetRoomsResult = 106;
+        RoomStateChanged = 107;
+
+        CreateRoom = 108;
+
+        LeaveRoom = 109;
+        LeaveRoomResult = 110;
+
+        PlayerJoined = 111;
+        PlayerLeft = 112;
+
+        Say = 113;
+
+        //
+        UpdatePushToken = 114;
+        RoomUpdated = 115;
+
+        //
+        SendCenterLabel = 117;
+
+        //
+        StartGame = 118;
+        Alert = 119;
+        PlayerUpdated = 120;
+        BuyCashItem = 121;
+        BuyCashItemResult = 122;
+
+        //
+        UseCashItem = 123;
+        UseCashItemResult = 124;
+
+        //
+        FireRoomEvent = 126;
+
+        //
+        BuyChangeName = 127;
+        BuyChangeNameColor = 128;
+        UpdatePlayer = 129;
+
+        //
+        JoinEvent = 130;
+        JoinEventResult = 131;
+        MakePublic = 132;
+
+        Signup = 134;
+        SignupResult = 135;
+
+        EditRoom = 136;
+        ClearChat = 137;
+        Signaling = 138;
+
+        AlertResult = 139;
+        RefreshBottomBar = 140;
+
+        //
+        WelcomeField = 141;
+        UnitJoined = 142;
+        UnitLeft = 143;
+        UnitMove = 144;
+        UnitUpdated = 145;
+        UnitTouched = 146;
+        MapObjectTouched = 147;
+
+        UseSkill = 148;
+        UseSkillResult = 149;
+
+        GetStats = 150;
+        GetStatsResult = 151;
+
+        AddFriend = 152;
+        AddFriendResult = 153;
+        GetFriends = 154;
+        GetFriendsResult = 155;
+        RemoveFriend = 156;
+        RemoveFriendResult = 157;
+        FollowFriend = 158;
+        FollowFriendResult = 159;
+        InviteFriend = 160;
+        InviteFriendResult = 161;
+        SearchPlayer = 162;
+        SearchPlayerResult = 163;
+        GetPlayerInfo = 164;
+        GetPlayerInfoResult = 165;
+        MessageFriend = 166;
+        MessageFriendResult = 167;
+
+        BuyMegaphone = 168;
+        GotMegaphone = 169;
+        GetClan = 170;
+        GetClanResult = 171;
+        DoClanFeature = 172;
+        DoClanFeatureResult = 173;
+        ClanSay = 174;
+        DestroyClan = 175;
+        DestroyClanResult = 176;
+        ChangeClanDesc = 177;
+        ChangeClanDescResult = 178;
+        ChangeClanNotice = 179;
+        ChangeClanNoticeResult = 180;
+        GiveClan = 181;
+        GiveClanResult = 182;
+        SetClanRole = 183;
+        SetClanRoleResult = 184;
+        CreateClan = 185;
+        CreateClanResult = 186;
+        LeaveClan = 187;
+        LeaveClanResult = 188;
+        InviteClan = 189;
+        InviteClanResult = 190;
+
+        SetWillText = 191;
+        SetWillTextResult = 192;
+
+        CheckSendGiftTo = 193;
+        CheckSendGiftToResult = 194;
+
+        ChangeIntroduction = 195;
+        ChangeIntroductionResult = 196;
+
+        Chats = 197;
+        ChatsResult = 198;
+        ChatWrite = 199;
+        ChatWriteResult = 200;
+        ChatSeen = 201;
+        StartChat = 202;
+        StartChatResult = 203;
+        JoinChat = 204;
+        JoinChatResult = 205;
+        LeaveChat = 206;
+        LeaveChatResult = 207;
+
+        BanClanMember = 208;
+        BanClanMemberResult = 209;
+        ToggleClanSubMaster = 210;
+        ToggleClanSubMasterResult = 211;
+
+        JoinClan = 212;
+        JoinClanResult = 213;
+        ChatActive = 214;
+
+        BuyWillText = 215;
+
+        GetMailbox = 216;
+        GetMailboxResult = 217;
+
+        ReadMail = 218;
+        ReadMailResult = 219;
+
+        GetEventDetails = 220;
+        GetEventDetailsResult = 221;
+
+        ApplyEvent = 222;
+        ApplyEventResult = 223;
+
+        MapObjectDetouched = 224;
+
+        Toast = 225;
+        ToggleClanPush = 226;
+        ToggleClanPushResult = 227;
+        TogglePush = 228;
+        TogglePushResult = 229;
+
+        LikePlayer = 230;
+        LikePlayerResult = 231;
+
+        GetFurnitureReward = 232;
+        GetFurnitureRewardResult = 233;
+
+        RoomPlayerUpdated = 234;
+        ShowEventPopup = 235;
+        ShowEventPopupResult = 236;
+
+        BanPlayer = 237;
+        BanPlayerResult = 238;
+
+        GetAchievements = 239;
+        GetAchievementsResult = 240;
+
+        GetAchievementReward = 241;
+        GetAchievementRewardResult = 242;
+
+        BuyChangePetName = 243;
+        UnitAttacked = 244;
+
+        GotGachaItems = 245;
+
+        GetFriendRecommendation = 246;
+        GetFriendRecommendationResult = 247;
+
+        RecommendFriend = 248;
+        RecommendFriendResult = 249;
+
+        GetRecommendationReward = 250;
+        GetRecommendationRewardResult = 251;
+
+        UseCoupon = 252;
+        UseCouponResult = 253;
+
+        WaitRankGame = 254;
+        CancelWaitRankGame = 255;
+        FoundRankGame = 256;
+        GetMatchedPlayerCount = 257;
+        GetMatchedPlayerCountResult = 258;
+
+        BuyRandombox = 259;
+        BuyRandomboxResult = 260;
+
+        GetReplayMetaInfo = 261;
+        GetReplayMetaInfoResult = 262;
+
+        PlayMoralEducation = 263;
+        EndedMoralEducation = 264;
+
+        CompleteGooglePlayAchievement = 265;
+
+        BuyChangeClanName = 266;
+        BuyChangeClanNameColor = 267;
+
+        PutTile = 268;
+        PutTileResult = 269;
+        MoveTile = 270;
+        MoveTileResult = 271;
+
+        TakeRewardTile = 272;
+        TakeRewardTileResult = 273;
+
+        PutWaterTile = 274;
+        PutWaterTileResult = 275;
+
+        //        UpgradeCashItem = 276;
+        //        UpgradeCashItemResult = 277;
+        //        SellCashItem = 278;
+        //        SellCashItemResult = 279;
+
+        FieldUpdated = 280;
+
+        GetFarmRooms = 281;
+        GetFarmRoomsResult = 282;
+        ToggleFarmSecret = 283;
+        ToggleFarmSecretResult = 284;
+
+        GetBingo = 285;
+        GetBingoResult = 286;
+        BuyBingo = 287;
+        BuyBingoResult = 288;
+        ChangeBingoFinalReward = 289;
+        ChangeBingoFinalRewardResult = 290;
+        ChangeBingoBoard = 291;
+        ChangeBingoBoardResult = 292;
+        ClearNextInitializationTime = 293;
+        ClearNextInitializationTimeResult = 294;
+
+        WaitHideAndSeek = 295;
+        CancelWaitHideAndSeek = 296;
+        FoundHideAndSeek = 297;
+
+        WaitMafiaGame = 298;
+        CancelWaitMafiaGame = 299;
+        FoundMafiaGame = 300;
+
+        ShowTutorial = 301;
+        ShowTutorialResult = 302;
+
+        ClearFarm = 303;
+
+        ShowPocketMoneyPopup = 304;
+        GetPocketMoney = 305;
+
+        JoinPlayerFarm = 306;
+        JoinPlayerFarmResult = 307;
+        ChangeFarmSettings = 308;
+        ChangeFarmSettingsResult = 309;
+        GetFarmGuestbook = 310;
+        GetFarmGuestbookResult = 311;
+        PostFarmGuestbook = 312;
+        PostFarmGuestbookResult = 313;
+        DeleteFarmGuestbook = 314;
+        DeleteFarmGuestbookResult = 315;
+        UpdateFarmGuestbook = 316;
+        UpdateFarmGuestbookResult = 317;
+
+        GetCoinSupplyInfo = 318;
+        GetCoinSupplyInfoResult = 319;
+        GetCoinSupplyReward = 320;
+        GetCoinSupplyRewardResult = 321;
+
+        ChangeFarmIntroduction = 322;
+        ChangeFarmIntroductionResult = 323;
+
+        GetCollectingEvent = 324;
+        GetCollectingEventResult = 325;
+        SpawnCollectingObject = 326;
+        TouchCollectingObject = 327;
+        TouchCollectingObjectResult = 328;
+
+        // NPCSay, NPCShop, NPCNext
+        GotNPCCommand = 329; // S -> C
+        NPCCommandReply = 330; // C -> S
+
+        //
+        WeatherUpdated = 331;
+
+        UseGameItem = 332;
+        UseGameItemResult = 333;
+        EquipGameItem = 334;
+        SwapGameItem = 335;
+        SwapGameItemResult = 336;
+
+        BuyNPCShopItem = 337;
+        BuyNPCShopItemResult = 338;
+        SellNPCShopItem = 339;
+        SellNPCShopItemResult = 340;
+        QuestUpdated = 341;
+
+        //
+        UnitFishingStarted = 342;
+        UnitFishBitTheBait = 343;
+        UnitFishingDone = 344;
+        UnitFishingDoneResult = 345;
+
+        GetBirthday = 346;
+        GetBirthdayResult = 347;
+
+        TradeRequest = 348;
+        TradeRequestResult = 349;
+        //        TradeRequestReply = 350;
+        //        TradeRequestReplyResult = 351;
+        TradeDestroy = 352;
+        TradeRefresh = 353;
+        TradePutItem = 362;
+        TradeCommand = 363;
+
+        GetNPCFames = 354;
+        GetNPCFamesResult = 355;
+
+        DropItemAdded = 356;
+        DropItemRemoved = 357;
+        GetDropItem = 358;
+        GetDropItemResult = 359;
+        DropBagItem = 360;
+        DropBagItemResult = 361;
+        SleepUnit = 364;
+        SleepUnitResult = 365;
+        QuestDeleted = 366;
+        CraftItem = 367;
+        CraftItemResult = 368;
+
+        ComposeMusic = 369;
+        ComposeMusicResult = 370;
+
+        SetNPCFace = 371;
+        SetNPCFaceResult = 372;
+
+        TileAttacked = 373;
+
+        Respawn = 374;
+        RespawnResult = 375;
+        //        LoginEdge = 376;
+        //        LoginEdgeResult = 377;
+
+        ShowEventText = 378;
+        UpgradeBagItem = 379;
+        UpgradeBagItemResult = 380;
+
+        ResetBuffTimer = 381;
+        EnableBuff = 382;
+
+        ItemAutoComposed = 383;
+        LockItem = 384;
+        AchievementUpdated = 385;
+
+        CollectedMonster = 386;
+        GotCoin = 387;
+        CollectedItem = 388;
+        UpdateBagItem = 389;
+
+        PlaySynopsys = 390;
+        PlaySynopsysDone = 391;
+        DestroyBagItem = 392;
+        DestroyBagItemResult = 393;
+        ConnectSocial = 394;
+        ConnectSocialResult = 395;
+
+        ClanDonateCoin = 396;
+        ClanDonateCoinResult = 397;
+
+        GetSpiritOffers = 398;
+        GetSpiritOffersResult = 399;
+        BuySpiritOffer = 400;
+        BuySpiritOfferResult = 401;
+
+        BlockChat = 402;
+        BlockChatResult = 403;
+        DeleteBlockChat = 404;
+        DeleteBlockChatResult = 405;
+        GetChatBlockedList = 406;
+        GetChatBlockedListResult = 407;
+        
+        SendAdventure = 408;
+        SendAdventureResult = 409;
+
+        GetChannels = 410;
+        GetChannelsResult = 411;
+
+        WatchADStarted = 412;
+        WatchADStopped = 413;
+
+        DecomposeGameItem = 414;
+        DecomposeGameItemResult = 415;
+        ToggleFollowing = 416;
+
+        JoinStage = 417;
+        JoinStageResult = 418;
+
+        SearchClans = 419;
+        SearchClansResult = 420;
+
+        GetClanInfo = 421;
+        GetClanInfoResult = 422;
+
+        AllowJoinClan = 423;
+        AllowJoinClanResult = 424;
+
+        DisallowJoinClan = 425;
+        DisallowJoinClanResult = 426;
+
+        SetClanAutoAllow = 427;
+        SetClanAutoAllowResult = 428;
+
+        UpdateCashItem = 429;
+
+        GetStages = 430;
+        GetStagesResult = 431;
+        CompleteStage = 432;
+        CompleteStageResult = 433;
+
+        GetClanIDByPlayerID = 434;
+        GetClanIDByPlayerIDResult = 435;
+
+        CreateParty = 436;
+        CreatePartyResult = 437;
+        SearchParty = 438;
+        SearchPartyResult = 439;
+        LeaveParty = 440;
+        LeavePartyResult = 441;
+        JoinParty = 442;
+        JoinPartyResult = 443;
+        PartyUpdated = 444;
+        UnitMove2 = 445;
+
+        ClanAttendance = 446;
+        ClanAttendanceResult = 447;
+
+        GetClanAttendanceReward = 448;
+        GetClanAttendanceRewardResult = 449;
+
+        ClanDonate = 450;
+        ClanDonateResult = 451;
+
+        JoinClanAgit = 452;
+        JoinClanAgitResult = 453;
+
+        GetClanShopItems = 454;
+        GetClanShopItemsResult = 455;
+
+        InviteParty = 456;
+        InvitePartyResult = 457;
+
+        UpgradeClanShopItem = 458;
+        UpgradeClanShopItemResult = 459;
+
+        ClanDonationReset = 460;
+        ClanDonationResetResult = 461;
+        DisconnectedByOtherDevice = 462;
+
+        AnswerQuiz = 463;
+        AnswerQuizResult = 464;
+
+        KickParty = 465;
+        KickPartyResult = 466;
+        StartTrade = 467;
+
+        UpgradeUnitCore = 468;
+        UpgradeUnitCoreResult = 469;
+        UpgradePet = 470;
+        UpgradePetResult = 471;
+        SetMainPet = 472;
+        SetMainPetResult = 473;
+        PutPetStorage = 474;
+        PutPetStorageResult = 475;
+
+        UnlockStoneStat = 476;
+        UnlockStoneStatResult = 477;
+
+        GetVIPStatus = 478;
+        GetVIPStatusResult = 479;
+        RegisterVIP = 480;
+        RegisterVIPResult = 481;
+
+        BuyResetWeaponStats = 482;
+        BuyResetWeaponStatsResult = 483;
+
+        UnitPatternMove = 484;
+
+        SendFriendship = 485;
+        SendFriendshipResult = 486;
+
+        CheckTicket = 487;
+        CheckTicketResult = 488;
+
+        UnitReloadShot = 489;
+        ShowUnitDead = 490;
+        UnitPushed = 491;
+        HidePopupDead = 492;
+
+        SkipGame = 493;
+        ClearPattern = 494;
+
+        HandOverPartyMaster = 495;
+
+        SearchPlayers = 496;
+        SearchPlayersResult = 497;
+
+        BuyAdvertiseParty = 498;
+
+        //
+        GetVendingMachine = 502;
+        GetVendingMachineResult = 503;
+
+        PutVendingMachine = 504;
+        PutVendingMachineResult = 505;
+
+        BuyItemInVendingMachine = 506;
+        BuyItemInVendingMachineResult = 507;
+
+        //
+        PlayInstrument = 508;
+        ClosedVendingMachine = 509;
+        LeaveVendingMachine = 510;
+
+		GetCastleOccupiedInfo = 511;
+		GetCastleOccupiedInfoResult = 512;
+
+		SetBidding = 513;
+		SetBiddingResult = 514;
+
+        MapObjectCollisionUpdated = 515;
+
+        StartUnitCapture = 516;
+        StartUnitCaptureResult = 517;
+
+        UnitCaptured = 518;
+
+		ChangeOccupiedCastleNotice = 519;
+		ChangeOccupiedCastleNoticeResult = 520;
+
+		ChangeOccupiedCastleVendingMachineFee = 521;
+		ChangeOccupiedCastleVendingMachineFeeResult = 522;
+
+		GetTutorialReward = 523;
+		GetTutorialRewardResult = 524;
+
+        StartBattleField = 525;
+        StartBattleFieldResult = 526;
+        CancelWaitBattleField = 527;
+        FoundBattleField = 528;
+        GetBattleFieldInfo = 529;
+        GetBattleFieldInfoResult = 530;
+
+		SetQuestStart = 531;
+		SetQuestStartResult = 532;
+
+		GetQuests = 533;
+		GetQuestsResult = 534;
+
+		SetQuestComplete = 535;
+		SetQuestCompleteResult = 536;
+
+		GetQuestRewards = 537;
+		GetQuestRewardsResult = 538;
+
+		UpdateQuests = 539;
+		UpdateQuestsResult = 540;
+
+		SetQuestCancel = 541;
+		SetQuestCancelResult = 542;
+
+		RequestQuestSubEvent = 543;
+		RequestQuestSubEventResult = 544;
+
+		GetEventPetUpgradePercent = 545;
+		GetEventPetUpgradePercentResult = 546;
+
+		StartMiniGame = 547;
+		StartMiniGameResult = 548;
+
+		RequestMinigameReward = 549;
+		RequestMinigameRewardResult = 550;
+
+        CheckItemGrade = 551;
+        CheckItemGradeResult = 552;
+
+        GetCraftReward = 553;
+        GetCraftRewardResult = 554;
+        GetCrafts = 555;
+        GetCraftsResult = 556;
+        StartCraft = 557;
+        StartCraftResult = 558;
+        FoundItem = 559;
+
+		SetKnockBack = 560;
+		SetTutorialComplete = 561;
+
+		GetFriendReward = 562;
+		GetFriendRewardResult = 563;
+
+		GetCoupleInfo = 564;
+		GetCoupleInfoResult = 565;
+		SendLove = 566;
+		SendLoveResult = 567;
+		ChangeMyCoupleMessage = 568;
+		ChangeMyCoupleMessageResult = 569;
+		RequestBreakup = 570;
+		RequestBreakupResult = 571;
+		RequestBeCouple = 572;
+		RequestBeCoupleResult = 573;
+		AnswerConfession = 574;
+		AnswerConfessionResult = 575;
+		ChangeCoupleType = 576;
+		ChangeCoupleTypeResult = 577;
+		SetCoupleEffect = 578;
+
+		StartArena = 579;
+        StartArenaResult = 580;
+        CancelWaitArena = 581;
+        FoundArena = 582;
+        GetArenaInfo = 583;
+        GetArenaInfoResult = 584;
+
+		CoupleModelUpdated = 585;
+
+		ShowConversation = 586;
+
+        ShowSelectGachaReward = 587;
+		SelectGachaReward = 588;
+        SelectGachaRewardResult = 589;
+        SelectGachaRewardTimeout = 590;
+
+        SetFieldQuest =591;
+        UpdateFieldQuest =592;
+        ClearFieldQuest =593;
+
+        ShowObjective = 594;
+
+		ShowPackage = 595;
+		ShowPackageResult = 596;
+		ReceivePackageReward = 597;
+		ReceivePackageRewardResult = 598;
+
+		UnitActive = 599;
+
+		UpdateWeaponCooltime = 600;
+
+		GetStorageItems = 601;
+		GetStorageItemsResult = 602;
+		PutStorageItem = 603;
+		PutStorageItemResult = 604;
+		TakeStorageItem = 605;
+        TakeStorageItemResult = 606;
+
+		SearchExchangeItems = 607;
+		SearchExchangeItemsResult = 608;
+		BuyExchangeItem = 609;
+		BuyExchangeItemResult = 610;
+		GetMyExchangeItems = 611;
+		GetMyExchangeItemsResult = 612;
+		GetExchangeItemPriceInfo = 613;
+		GetExchangeItemPriceInfoResult = 614;
+		PutExchangeItem = 615;
+		PutExchangeItemResult = 616;
+		CancelExchangeItem = 617;
+		CancelExchangeItemResult = 618;
+		ReceiveSettlementExchangeItem = 619;
+		ReceiveSettlementExchangeItemResult = 620;
+
+		StartArenaDuo = 621;
+        StartArenaDuoResult = 622;
+        CancelWaitArenaDuo = 623;
+        FoundArenaDuo = 624;
+
+		GetPlayerCollections = 625;
+		GetPlayerCollectionsResult = 626;
+		RegisterCollectionItem = 627;
+		RegisterCollectionItemResult = 628;
+		GetCollectionReward = 629;
+        GetCollectionRewardResult = 630;
+
+        RequestVerify = 631;
+        RequestVerifyResult = 632;
+
+		GetClanRoleNames = 633;
+		GetClanRoleNamesResult = 634;
+		ChangeClanRoleNames = 635;
+		ChangeClanRoleNamesResult = 636;
+		ChangeClanMemberRole = 637;
+		ChangeClanMemberRoleResult = 638;
+
+		DistributeClanStoneToken = 639;
+		DistributeClanStoneTokenResult = 640;
+		GetDistributedStoneTokenLog = 641;
+		GetDistributedStoneTokenLogResult = 642;
+
+		StartPartyAutoMatching = 643;
+        StartPartyAutoMatchingResult = 644;
+        CancelWaitPartyAutoMatching = 645;
+        FoundPartyAutoMatching = 646;
+
+		LockAutoCompose = 647;
+
+		ShowReplayMode = 648;
+		ReplayCurrentMode = 649;
+
+		ToggleShowAvatarSkinCard = 650;
+		ToggleShowAvatarSkinCardResult = 651;
+
+		PlayerCheckDayContinued = 652;
+
+		VotePopularity = 653;
+		VotePopularityResult = 654;
+
+		TCollectionUpdated = 655;
+
+		/*
+            Analytics
+        */
+        TrackScene = 500;
+
+        //
+        Test = 501;
+
+		/*
+            Admin
+        */
+        Admin_ShowPlayerItems = 10001;
+		Admin_ShowPlayerItemsResult = 10002;
+
+		Admin_RemovePlayerItem = 10003;
+		Admin_RemovePlayerItemResult = 10004;
+
+		Admin_ShowItemLogs = 10005;
+		Admin_ShowItemLogsResult = 10006;
+
+        Admin_ShowSearchPlayer = 10007;
+        Admin_SearchPlayer = 10008;
+        Admin_SearchPlayerResult = 10009;
+
+        Admin_GetPlayerMails = 10010;
+        Admin_GetPlayerMailsResult = 10011;
+
+        Admin_DeletePlayerMail = 10012;
+        Admin_DeletePlayerMailResult = 10013;
+
+        Admin_GetPlayerExchangeItems = 10014;
+        Admin_GetPlayerExchangeItemsResult = 10015;
+
+        Admin_DeleteExchangeItem = 10016;
+        Admin_DeleteExchangeItemResult = 10017;
+
+        Admin_GetPlayerStorage = 10018;
+        Admin_GetPlayerStorageResult = 10019;
+
+        Admin_RemovePlayerStorageItem = 10020;
+        Admin_RemovePlayerStorageITemResult = 10021;
+    }
+
+    required Type type = 1;
+    optional int64 id = 2;
+}
+
+// Types
+message TUnit {
+    optional int64 id = 1;
+    optional int32 type = 2 [default = 0];
+    optional int32 state = 3 [default = 0];
+    optional string name = 4;
+    optional uint32 nameColor = 5;
+    optional bool nameItalic = 6;
+
+    //
+    optional float posX = 10;
+    optional float posY = 11;
+    optional float dirX = 12;
+    optional float dirY = 13;
+
+    //
+    optional int32 oldHP = 20;
+    optional int32 oldMaxHP = 21;
+
+    //
+    optional int32 level = 22;
+    optional int32 teamTag = 23;
+
+    //
+    optional int32 moveSpeed = 24;
+    optional int64 playerID = 25;
+    optional int64 dataID = 28;
+    optional int64 clanID = 29;
+    optional int64 nameTagID = 35;
+    optional int64 unitTrailID = 36;
+    optional int64 unitEffectID = 37;
+    optional int64 emblemID = 38;
+    optional int64 unitChatBalloonID = 39;
+
+    optional int32 tag = 26;
+    optional bool visible = 27;
+    optional bool visibleShadow = 32;
+
+    optional bool dead = 30;
+    optional bool moveEnabled = 31;
+
+    //
+    optional string clanName = 33;
+    optional uint32 clanNameColor = 34;
+
+    // Furniture
+    optional int64 completeAt = 40;
+    optional int64 ownerPlayerID = 41;
+
+    //
+    optional int32 equipItemDataID = 43;
+
+    //
+    optional TUnitClothes clothes = 44;
+    repeated TBuff buff = 45;
+
+    optional int32 mineMaterialCollected = 46;
+
+    optional int32 addAutoMoveSpeed = 47;
+
+    repeated string activatedAnimationKeys = 48;
+    optional int64 partyID = 49;
+    optional string vendingMachineName = 50;
+
+    optional int32 collisionTag = 51;
+    optional int32 capturableTag = 52;
+
+    optional bool isClanMaster = 53;
+
+    optional int64 hp = 54;
+    optional int64 maxHP = 55;
+
+    optional int32 stoneCollected = 56;
+	optional bool  coupleEffect = 57;
+
+	optional bool miracleActivated = 58;
+
+	optional int64 barrier = 59;
+	optional int64 maxBarrier = 60;
+}
+
+message TUnitClothes {
+    optional TItem nameTag = 1;
+    optional TItem hat = 2;
+    optional TItem shirt = 3;
+    optional TItem earring = 4;
+    optional TItem pants = 5;
+    optional TItem shoes = 6;
+    optional TItem ring = 7;
+    optional TItem necklace = 8;
+    optional TItem gloves = 9;
+    optional TItem weapon1 = 10;
+    optional TItem cape = 11;
+	optional TItem coupleRing = 12;
+
+	repeated TItem miracleCards = 13;
+}
+
+message TBuff {
+    optional int32 id = 1;
+    optional float time = 2;
+    optional int64 untilAt = 3;
+}
+
+message TField {
+    optional int32 id = 1;
+    optional string name = 2;
+    optional int64 resID = 3;
+    optional string fileName = 4;
+    optional int32 flags = 5;
+
+    optional bytes data = 6;
+    repeated TMapObject objects = 7;
+    optional int64 ownerPlayerID = 8;
+    optional string introduction = 9;
+
+    optional TFieldFixCamera fixCamera = 10;
+    repeated TFieldMapObjectCollideTo mapObjectCollideTo = 11;
+}
+
+message TFieldFixCamera {
+    optional float posX = 1;
+    optional float posY = 2;
+}
+
+message TFieldMapObjectCollideTo {
+    optional string name = 1;
+    optional int32 collideTo = 2;
+}
+
+message TFieldData {
+    optional int32 width = 1;
+    optional int32 height = 2;
+    repeated TFieldLayer layers = 3;
+    optional int32 maxWidth = 4;
+    optional int32 maxHeight = 5;
+    optional int32 minWidth = 6;
+    optional int32 minHeight = 7;
+}
+
+message TFieldLayer {
+    optional int32 id = 1;
+    repeated TTile tiles = 2;
+    optional int32 type = 3;
+}
+
+message TMapObject {
+    optional int32 x = 1;
+    optional int32 y = 2;
+    optional int32 width = 3;
+    optional int32 height = 4;
+    optional bool trigger = 5;
+    optional string name = 6;
+}
+
+message TTile {
+    optional string id = 1;
+    optional int32 dataID = 2;
+    optional int32 state = 3;
+    optional uint32 startAt = 4;
+    optional uint32 completeAt = 5;
+    optional int32 count = 6;
+}
+
+message TBingo {
+    optional int64 nextInitializationTimeAt = 1;
+    repeated int32 numbers = 2;
+    repeated bool opens = 3;
+    repeated int64 rewards = 4;
+    repeated int32 rewardGrades = 5;
+    repeated int32 rewardCounts = 6;
+    repeated int32 rewardDays = 7;
+    optional int64 finalReward = 8;
+    optional int32 finalRewardGrade = 9;
+    optional int32 finalRewardCount = 10;
+    optional int32 finalRewardDay = 11;
+    optional bool freeChangeFinalRewardItem = 12;
+    optional bool freeChangeBingoBoard = 13;
+}
+
+message TPetStat {
+    optional int32 type = 1;
+    optional int32 grade = 2;
+    optional int32 job = 3;
+}
+
+message TItemOption {
+    optional int32 type = 1;
+    optional float value = 2;
+    optional int32 itemID = 3;
+}
+
+message TItem {
+    optional int64 id = 1;
+    optional int64 dataID = 3;
+    optional string name = 10;
+    optional int32 count = 4;
+    optional int64 untilAt = 5;
+    optional string desc = 6;
+    optional int32 level = 7;
+    optional int32 exp = 8;
+    optional int32 maxEXP = 9;
+    optional int32 grade = 11;
+    optional bool locked = 13;
+    optional int32 life = 14;
+
+    optional int32 quantity = 15;
+    optional int32 maxQuantity = 16;
+    optional int64 fedAt = 17;
+
+    repeated TPetStat stats = 20;
+    optional int32 length = 21;
+    optional uint32 color = 22;
+
+    // For COMPOSE_MUSIC
+    optional TItemScore score = 23;
+
+    //
+    repeated TItemOption options = 24;
+    repeated TItemOption jewels = 25;
+    optional bool sealed = 26;
+    optional int32 sealAvailableCount = 27;
+
+	//
+	optional float miracleRate = 28;
+
+    // TEMP
+    optional float order = 100;
+    optional bool inTrade = 101;
+    optional int32 potionPrice = 102;
+	optional int64 fromUnitDataID = 103;
+}
+
+message TItemScore {
+    optional int32 tempo = 1;
+    optional int32 volume = 2;
+    optional int32 octave = 3;
+    optional int32 noteLength = 4;
+    optional int32 instrumentItemID = 5;
+    repeated string scores = 6;
+}
+
+message TQuest {
+    optional int32 id = 1;
+	optional int32 type = 2;
+    optional int32 state = 3;
+    optional int32 subQuestID = 4;
+
+    optional int64 param1 = 5;
+    optional int64 param2 = 6;
+    optional int64 param3 = 7;
+    optional int64 param4 = 8;
+}
+
+message TIceServer {
+    optional string url = 1;
+    optional string username = 2;
+    optional string password = 3;
+}
+
+//
+message TPlayerStub {
+    optional int64 id = 1;
+
+    optional string name = 2;
+    optional uint32 nameColor = 3;
+    optional bool nameItalic = 4;
+    optional int32 level = 5;
+}
+
+message TPlayerPublic {
+    optional string name = 1;
+    optional uint32 nameColor = 2;
+    optional bool nameItalic = 23;
+    optional int32 level = 3;
+
+    optional int32 kills = 4;
+    optional int32 deaths = 5;
+    optional float kdRatio = 6;
+
+    optional int64 lastConnectedAt = 8;
+
+    optional int32 wins = 9;
+    optional int32 loses = 10;
+    optional int32 escapes = 11;
+
+    optional string clanName = 12;
+    optional uint32 clanNameColor = 13;
+
+    optional TItem avatar = 14;
+    optional TItem pet = 15;
+    optional TItem nameTag = 19;
+    optional TItem emblem = 33;
+    optional TItem avatarTrail = 20;
+    optional TItem avatarEffect = 29;
+    optional TItem avatarChatBalloon = 30;
+	optional TItem damageSkin = 42;
+	optional TItem avatarSkin = 49;
+
+    optional int64 avatarUnitID = 17;
+    optional int64 petUnitID = 18;
+    optional int64 nameTagID = 21;
+    optional int64 avatarSkinID = 50;
+
+    optional string introduction = 16;
+
+    optional int32 mafiaPlayCount = 31;
+    optional bool isNewbie = 32;
+
+    optional string countryCode = 34;
+    optional int32 totalAttackPower = 35;
+    optional bool dead = 36;
+
+    optional int32 battleFieldRating = 37;
+    optional int32 battleFieldRankEmblem = 38;
+    optional int32 battleFieldWins = 39;
+    optional int32 battleFieldLoses = 40;
+    optional int32 battleFieldEscapes = 41;
+
+	optional bool coupleEffect_nonUsed = 43;
+
+    optional int32 arenaRating = 44;
+    optional int32 arenaRankEmblem = 45;
+    optional int32 arenaWins = 46;
+    optional int32 arenaLoses = 47;
+    optional int32 arenaEscapes = 48;
+
+    optional int32 popularityScore = 51;
+}
+
+message TPlayerPrivate {
+    optional int32 gameMoney = 1;
+    optional int32 cashMoney = 2;
+    optional int32 exp = 3;
+    optional int32 maxEXP = 4;
+    repeated TItem oldItems = 5;
+
+    optional int64 unitDataID = 6;
+    optional int64 petDataID = 7;
+    optional string petName = 8;
+
+    // Promotion
+    optional bool badgeEvent = 17;
+    optional bool firstCachePurchase = 18;
+
+    optional int64 nextRandomboxAvailableAt = 20;
+
+    optional int64 coinSupplyGiftLevel = 23;
+    optional bool coinSupplyCoinFull = 24;
+    optional int32 bingoPoints = 25;
+
+    optional bool rubyShopEvent1 = 26;
+    optional bool rubyShopEvent2 = 27;
+    optional bool rubyShopEvent3 = 28;
+    optional bool rubyShopEvent4 = 29;
+
+    optional int64 adGetRubyAvailableAt = 31;
+    optional int64 adCoin2XAvailableAt = 32;
+    optional int64 adRespawnAvailableAt = 33;
+    optional int64 fastMiningAvailableAt = 34;
+    optional int32 fastMiningLevel = 36;
+    optional int64 disableAcquireRubyAt = 37;
+
+    optional int32 clanMoney = 35;
+    optional int32 weaponStatPoints = 38;
+    optional int32 friendshipPoints = 39;
+    optional int64 freeMaterialBoxAvailableAt = 40;
+    optional int64 fastHuntingAvailableAt = 41;
+    optional int32 fastHuntingLevel = 42;
+    optional int64 clanID = 43;
+
+    optional bool isWaitBattleField = 44;
+
+    optional int64 vipUntilAt = 45;
+    optional int64 pasteBaitAvailableAt = 46;
+
+    optional bool isWaitArena = 47;
+
+	optional int32 partyQuestPoints = 48;
+
+	optional bool isJoinableFieldBoss = 49;
+	optional bool isJoinableFieldBossRVR = 50;
+
+	optional bool isWaitArenaDuo = 51;
+	repeated TSoulStone soulStones = 52;
+
+	optional bool smsVerified = 53;
+
+	optional bool isWaitPartyAutoMatching = 54;
+
+	optional bool emailVerified = 55;
+}
+
+message TPlayerGame {
+    optional int32 teamTag = 1;
+    optional int32 score = 2;
+    optional int32 dead = 3;
+    optional int32 ratingPoint = 4;
+}
+
+message TStat {
+    optional int32 job = 1;
+    optional int32 wins = 2;
+    optional int32 loses = 3;
+}
+
+
+message TPlayerStats {
+    optional int32 attackPower = 2;
+    optional float critical = 3;
+    optional float criticalDamage = 4;
+    optional int32 defense = 5;
+    optional float defenseSuccess = 6;
+    optional int32 oldHP = 7;
+    optional int64 hp = 8;
+
+	optional int32 moveSpeed = 9;
+	optional int32 autoRecovery = 10;
+	optional int32 attackDistance = 11;
+	optional float penetrationRatio = 12;
+	optional float additionalCoinRatio = 13;
+	optional float superCombinationRatio = 14;
+	optional float bossAdditionalDamageRatio = 15;
+	optional bool superCombinationEnable = 16;
+}
+
+message TPlayerClan {
+    optional int32 role = 1;
+    optional int64 lastConnectedAt = 2;
+    optional int32 score = 3;
+
+	optional TClanRoleData roleData = 4;
+
+	optional int32 todayStoneTokenReceived = 5;
+	optional int32 weekStoneTokenReceived = 6;
+}
+
+message TPlayerFriend {
+    optional string statusText = 1;
+    optional bool bothFriend = 2;
+	optional bool canSendFriendshipPoint = 3;
+	optional bool haveToSendBack = 4;
+	optional int32 feelingPoint = 5;
+	optional int32 friendType = 6;
+	optional bool isFriendPointExchangingCompleted = 7;
+}
+
+message TPlayerCouple {
+    optional string statusText = 1;
+    optional bool bothCouple = 2;
+
+	optional int64 coupleType = 3;
+
+	optional string myMessage= 4;
+	optional string coupleMessage = 5;
+
+	optional int64	createdAt = 6;
+	optional bool	canSendLove = 7;
+	optional string coupleLocation = 8;
+}
+
+message TPlayerDetails {
+    optional int32 monthlyRank = 1;
+    optional int32 weeklyRank = 2;
+    optional int32 clanMonthlyRank = 3;
+    optional int32 clanWeeklyRank = 4;
+    optional int64 unitDataID = 5;
+    optional int32 fame = 6;
+    optional int32 weekFame = 7;
+    optional int32 ladderRank = 8;
+}
+
+message TPlayerGameBag {
+    repeated TItem items = 1;
+    optional int32 itemCapacity = 2;
+}
+
+message TPlayerItems {
+    repeated TItem items = 1;
+}
+
+message TPlayer {
+    optional int64 id = 1;
+
+    optional TPlayerPublic public = 2;
+    optional TPlayerPrivate private = 3;
+    optional TPlayerGame game = 4;
+    optional TPlayerClan clan = 5;
+    optional TPlayerFriend friend = 6;
+    optional TPlayerStats stats = 7;
+    optional TPlayerDetails details = 8;
+    optional TPlayerGameBag gameBag = 9;
+    optional TPlayerItems items = 10;
+
+	optional TPlayerCouple couple = 11;
+}
+
+message TClanFeature {
+    optional int64 id = 1;
+    optional int32 category = 2;
+    optional string name = 3;
+    optional int64 nextAvailableAt = 4;
+    optional bool enabled = 5;
+}
+
+message TClanPrivate {
+    optional bool attendable = 1;
+    optional bool attendanceRewarded = 2;
+    optional int32 donatedStoneTokenCount = 3;
+    optional int32 donatedCoinCount = 4;
+    optional int32 stoneTokenResetCount = 5;
+    optional int32 coinResetCount = 6;
+}
+
+message TCastleData {
+	optional int64		castleId = 1;
+	optional string		castleNotice = 2;
+
+	optional int64		stoneTokenCount_lastWeek = 3;
+	optional int64		stoneTokenCount_currentWeek = 4;
+}
+
+message TClan {
+    optional int64 id = 1;
+    optional string name = 2;
+    optional uint32 nameColor = 3;
+    optional string desc = 4;
+    optional string notice = 14;
+    optional string imageURL = 15;
+
+    optional int32 rank = 5;
+    optional int32 oldRank = 6;
+    optional int32 level = 7;
+
+    //
+    repeated TPlayer players = 8;
+    optional int32 exp = 9;
+    optional int32 maxEXP = 10;
+    optional int64 gameMoney = 11;
+    optional int64 createdAt = 12;
+    repeated TClanFeature features = 13;
+    optional int64 chatID = 16;
+    optional int32 maxPlayers = 17;
+    optional bool autoAllow = 18;
+    optional string master = 19;
+
+    //optional int32 today_attendance = 20;
+    //optional int32 yesterday_attendance = 21;
+
+    optional TClanPrivate private = 22;
+	
+	optional bool		ownCastle = 23;
+	optional string		castleNotice = 24;
+	optional int32		vendingMachineFee = 25;
+	optional int64		castleId = 26;
+
+	optional TCastleData ownedCastleData = 27;
+}
+
+message TClanStub {
+    optional int64 id = 1;
+    optional int32 rank = 2;
+    optional string name = 3;
+    optional uint32 nameColor = 4;
+    optional int32 level = 5;
+    optional int32 players = 6;
+    optional int32 maxPlayers = 7;
+    optional string desc = 8;
+    optional bool autoAllow = 9;
+}
+
+message TRoom {
+    optional int64 id = 1;
+    optional string secret = 2;
+    optional string name = 3;
+    optional int32 state = 4;
+    optional float stateTimer = 5;
+
+    //
+    optional int32 maxPlayers = 6;
+    optional int32 mode = 7;
+
+    repeated TPlayer players = 8;
+    optional int64 masterPlayerID = 9;
+
+    //
+    optional int32 round = 10;
+    repeated float outsideTone = 11;
+
+    //
+    optional bool chatEnabled = 12;
+    optional int32 winTeam = 13;
+    optional int32 mapID = 14;
+    optional int32 channelID = 15;
+
+    optional TPlayer me = 16;
+
+    optional TRoomBossResult bossResult = 17;
+
+    optional int32 subState = 18;
+
+    optional TRoomCastleBattleResult castleBattleResult = 19;
+    optional string scoreText = 20;
+    repeated string scoreInfo = 21;
+    optional int32 minLevel = 22;
+    optional int32 minAttack = 23;
+
+    optional string resultTitle = 24;
+    optional int32 roundWinTeam = 25;
+
+    optional bool skippable = 26;
+	optional int32 timerType = 27;
+	optional int32 maxRound = 28;
+
+	optional int32 startType = 29;
+	optional int64 startedAt = 30;
+	optional int32 season = 31;
+}
+
+message TClanStoneTokenLog {
+	optional int64 clanId = 1;
+	optional TPlayer tplayer = 2;
+	optional int64 countDistributed = 3;
+	optional int64 createdAt = 4;
+}
+
+message TRoomBossResult {
+    optional int32 mineBossMaterialCount = 1;
+    optional int64 rewardID = 2;
+    optional int32 rewardCount = 3;
+    optional int32 rewardDays = 4;
+    optional int32 rewardLife = 5;
+}
+
+message TRoomCastleBattleResult {
+    optional int64 castleID = 1;
+    optional int64 nextOwnerClanID = 2;
+    optional string nextOwnerClanName = 3;
+    optional int64 mvpUnitDataID = 4;
+    optional string mvpName = 5;
+    optional int32 mvpScore = 6;
+    optional int64 mvpRewardID = 7;
+    optional int32 mvpRewardCount = 8;
+    optional int32 mvpRewardDays = 9;
+    optional int32 mvpRewardLife = 10;
+}
+
+message TRoomStub {
+    optional int64 id = 1;
+    optional string name = 2;
+    optional bool hasSecret = 3;
+    optional int32 players = 4;
+    optional int32 maxPlayers = 5;
+    optional int32 mode = 6;
+    optional int32 type = 7;
+    optional string details = 8;
+    optional int64 edgeServerID = 9;
+    optional int32 mapID = 10;
+    optional int32 channelID = 11;
+    optional bool locked = 12;
+}
+
+message TServer {
+    optional int64 id = 1;
+    optional string country = 2;
+    optional string name = 3;
+    optional string host = 4;
+    optional bool visible = 5;
+}
+
+message TEvent {
+    optional int64 id = 1;
+    optional int32 type = 2;
+    optional string name = 3;
+    optional string desc = 4;
+    optional bool showInLobbyLeft = 5;
+    optional string noticeURL = 6;
+    optional bool showBadge = 7;
+}
+
+message TAchievement {
+    optional int32 id = 1;
+    optional string type = 2;
+    optional int32 state = 3;
+    optional int64 param1 = 4;
+    optional int64 param2 = 5;
+    optional int64 param3 = 6;
+    optional int64 param4 = 7;
+}
+
+message TMail {
+    optional int64 id = 1;
+    optional TPlayer sender = 2;
+    optional int64 itemID = 3;
+    optional string text = 4;
+
+    optional int64 createdAt = 5;
+	optional int64 untilAt = 7;
+
+	optional int32 type = 6;
+}
+
+message TReplayMetaInfo {
+    optional int64 id = 1;
+    optional int32 mode = 2;
+    optional int64 createdAt = 3;
+}
+
+message TGuestbook {
+    optional int64 id = 1;
+    optional TPlayer player = 2;
+    optional string text = 3;
+    optional int64 createdAt = 4;
+}
+
+message TCastleOccupiedInfo {
+	required TRoomStub	town = 1;
+	optional TClan		ownerClan = 2;
+	
+	optional bool		isInBidding = 3;
+	optional int32		myBiddingRank = 4;
+	optional int64		minBiddingPrice = 5;
+
+	optional string		occupyReward = 6;
+
+	repeated string		participatingClansInfo = 7;
+	optional string		myBiddingInfo = 8;
+	
+	optional int64		nextBattleStartTime = 9;
+	optional int64		biddingEndTime = 10;
+
+	optional bool		isAbleToBid = 11;
+	optional bool		isAbleToEnterCastleBattle = 12;
+
+	optional TClan		myClan = 13;
+	optional int64		maxBiddingPrice = 14;
+}
+
+message TClanAttendanceListCell {
+	optional string name = 1;
+	optional bool	attendedToday = 2;
+}
+
+message TQuestReward {
+	optional int32 itemID = 1;
+	optional int32 itemCount = 2;	
+}
+
+message TSoulStone {
+	optional int64 monsterID = 1;
+	optional int32 count = 2;
+}
+
+message TSoulStones {
+    repeated TSoulStone soulStones = 1;
+}
+
+message TCollectionMaterial {
+	optional int32 state = 1;
+	repeated TItem registeredItem = 2;
+	
+	optional int64 gameMoneyRegistered = 3;
+	optional int64 cashMoneyRegistered = 4;
+	optional int32 soulStoneRegistered = 5;
+}
+message TCollectionMaterials {
+	repeated TCollectionMaterial materials = 1;
+}
+
+message TCollection {
+	optional int64 id = 1;
+	optional int32 type = 2;
+    optional int32 state = 3;
+
+	optional TCollectionMaterials materialsRegistered = 4;
+}
+
+message TCollections {
+	repeated TCollection collections = 1;
+}
+
+message TClanRoleData {
+	optional int32 role = 1;
+	optional string roleName = 2;
+}
+
+// Messages
+message Login {
+    extend Packet {
+        required Login packet = 100;
+    }
+
+    optional string snsID = 1;
+    optional string snsName = 2;
+    optional int32 clientVersion = 3;
+    optional string deviceID = 4;
+    optional string deviceOS = 5;
+    repeated string cheatApps = 6;
+
+    //
+    optional bool loginByInvite = 7;
+    optional string language = 8;
+    optional string market = 9;
+    optional string country = 10;
+
+    optional string signature = 11;
+}
+
+message LoginResult {
+    extend Packet {
+        required LoginResult packet = 101;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+    optional TPlayer player = 3;
+
+    //
+    optional bool didSignup = 5;
+    optional string snsID = 6;
+
+    // 공지사항
+    optional string noticeText = 10;
+    optional string noticeButtonText = 12;
+    optional string noticeButtonURL = 11;
+    optional string noticeImageURL = 14;
+
+    //
+    repeated TEvent events = 13;
+    optional bool enableCoupon = 15;
+    repeated TQuest quests = 16;
+    repeated TAchievement achievements = 17;
+    repeated int32 collectedMonsterIDs = 18;
+    repeated int32 collectedItemIDs = 19;
+
+    optional bool useUnitMove2 = 20;
+    optional string appGuardClientID = 21;
+
+	//
+	optional int32 tutorialCompleted = 22;
+
+	//
+	optional TPlayer couplePlayer = 23;
+
+	repeated string noticeImageURLs = 24;
+    repeated string noticeImageClickURLs = 25;
+
+    repeated int32 experiencedItemIDs = 26;
+}
+
+message Ping {
+    extend Packet {
+        required Ping packet = 102;
+    }
+
+    optional double time = 2;
+    optional int64 gameTime = 3;
+    optional int32 latency = 4;
+}
+
+
+message JoinRoom {
+    extend Packet {
+        required JoinRoom packet = 103;
+    }
+
+    optional int64 id = 1;
+    optional string secret = 2;
+    optional string tag = 3;
+    optional bool joinEmptyRoom = 4;
+    optional bool buyTicket = 5;
+
+	optional bool joinRoomNonCrowed = 6;
+}
+
+message JoinRoomResult {
+    extend Packet {
+        required JoinRoomResult packet = 104;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+    optional int64 roomID = 3;
+    optional TRoom room = 4;
+
+    repeated TIceServer iceServers = 5;
+    optional TEdge edge = 6;
+    optional string roomSecret = 7;
+    optional int64 ticketCashPrice = 8;
+
+	optional int32 ticketCountToBuy = 9;
+	repeated int64 ticketCashPrices = 10;
+}
+
+message GetRooms {
+    extend Packet {
+        required GetRooms packet = 105;
+    }
+}
+
+message GetRoomsResult {
+    extend Packet {
+        required GetRoomsResult packet = 106;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+    repeated TRoomStub rooms = 3;
+    optional int32 playerCount = 4;
+}
+
+message RoomStateChanged {
+
+    extend Packet {
+        required RoomStateChanged packet = 107;
+    }
+
+    optional TRoom room = 1;
+}
+
+message CreateRoom {
+
+    extend Packet {
+        required CreateRoom packet = 108;
+    }
+
+    optional string name = 1;
+    optional int32 mode = 2;
+    optional string secret = 3;
+    optional int32 mapID = 4;
+    optional int32 minLevel = 5;
+    optional int32 maxLevel = 6;
+    optional int32 minAttack = 7;
+}
+
+message LeaveRoom {
+    extend Packet {
+        required LeaveRoom packet = 109;
+    }
+}
+
+message LeaveRoomResult {
+    extend Packet {
+        required LeaveRoomResult packet = 110;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message PlayerJoined {
+    extend Packet {
+        required PlayerJoined packet = 111;
+    }
+
+    optional TPlayer player = 1;
+    optional TRoom room = 2;
+}
+
+message PlayerLeft {
+    extend Packet {
+        required PlayerLeft packet = 112;
+    }
+
+    optional int64 playerID = 1;
+}
+
+message Say {
+    extend Packet {
+        required Say packet = 113;
+    }
+
+    optional int32 type = 1;
+    optional int64 playerID = 2;
+    optional string playerName = 3;
+    optional string text = 4;
+    optional int32 color = 5;
+    optional int32 bubbleColor = 6;
+    optional int64 unitID = 7;
+    optional int32 emoticonLoops = 8;
+    optional bool enableLongText = 9;
+    optional bool typing = 10;
+    optional int32 chatTarget = 11;
+    optional int64 clanID = 12;
+    optional int64 partyID = 13;
+}
+
+message UpdatePushToken {
+    extend Packet {
+        required UpdatePushToken packet = 114;
+    }
+
+    optional string pushToken = 1;
+}
+
+
+message RoomUpdated {
+    extend Packet {
+        required RoomUpdated packet = 115;
+    }
+
+    optional TRoom room = 1;
+}
+
+message SendCenterLabel {
+    extend Packet {
+        required SendCenterLabel packet = 117;
+    }
+
+    optional string text = 1;
+}
+
+message StartGame {
+    extend Packet {
+        required StartGame packet = 118;
+    }
+
+    optional bool check = 1;
+    optional int32 type = 2;
+}
+
+message Alert {
+    extend Packet {
+        required Alert packet = 119;
+    }
+
+    optional int64 id = 1;
+    optional string text = 2;
+    optional int32 type = 3;
+    repeated string args = 4;
+}
+
+message PlayerUpdated {
+    extend Packet {
+        required PlayerUpdated packet = 120;
+    }
+
+    optional TPlayer player = 1;
+}
+
+message BuyCashItem {
+    extend Packet {
+        required BuyCashItem packet = 121;
+    }
+
+    //
+    optional int64 itemID = 1;
+    optional int32 priceType = 2;
+    optional int32 untilAtType = 3;
+    optional string signedData = 4;
+    optional string signature = 5;
+    optional int64 receiverID = 6;
+    optional int32 count = 7;
+    optional bool experience = 8;
+
+    message Result {
+        extend Packet {
+            required Result packet = 122;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional TPlayer player = 3;
+        optional int64 itemID = 4;
+    }
+
+}
+
+message UseCashItem {
+    extend Packet {
+        required UseCashItem packet = 123;
+    }
+
+    optional int64 itemID = 1;
+    optional int64 targetItemID = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 124;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message FireRoomEvent {
+    extend Packet {
+        required FireRoomEvent packet = 126;
+    }
+
+    optional int32 type = 1;
+    repeated string args = 2;
+}
+
+message BuyChangeName {
+    extend Packet {
+        required BuyChangeName packet = 127;
+    }
+
+    optional int64 itemID = 1;
+    optional string name = 2;
+}
+
+message BuyChangeNameColor {
+    extend Packet {
+        required BuyChangeNameColor packet = 128;
+    }
+
+    optional int64 itemID = 1;
+    optional uint32 color = 2;
+    optional bool continuous = 3;
+}
+
+message UpdatePlayer {
+    extend Packet {
+        required UpdatePlayer packet = 129;
+    }
+}
+
+message JoinEvent {
+    extend Packet {
+        required JoinEvent packet = 130;
+    }
+
+    optional string id = 1;
+}
+
+message JoinEventResult {
+    extend Packet {
+        required JoinEventResult packet = 131;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message MakePublic {
+    extend Packet {
+        required MakePublic packet = 132;
+    }
+}
+
+message Signup {
+    extend Packet {
+        required Signup packet = 134;
+    }
+
+    optional string name = 1;
+    optional string farmName = 2;
+    optional bool gender = 3;
+    optional int32 favoritePet = 4;
+    optional int32 skinColor = 5;
+    optional int32 hair = 6;
+    optional int32 hairColor = 7;
+    optional int32 eyeColor = 8;
+    optional int32 shirtColor = 9;
+    optional int32 pantsColor = 10;
+}
+
+message SignupResult {
+    extend Packet {
+        required SignupResult packet = 135;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+
+    optional TPlayer player = 3;
+}
+
+message EditRoom {
+    extend Packet {
+        required EditRoom packet = 136;
+    }
+
+    optional string name = 1;
+    optional string secret = 2;
+    optional int32 minAttack = 3;
+}
+
+message ClearChat {
+    extend Packet {
+        required ClearChat packet = 137;
+    }
+}
+
+message Signaling {
+    extend Packet {
+        required Signaling packet = 138;
+    }
+
+    optional string data = 1;
+}
+
+message AlertResult {
+    extend Packet {
+        required AlertResult packet = 139;
+    }
+
+    optional int64 id = 1;
+    optional int32 type = 2;
+    optional int32 result = 3;
+    repeated string args = 4;
+}
+
+message RefreshBottomBar {
+    extend Packet {
+        required RefreshBottomBar packet = 140;
+    }
+
+    optional bool showController = 1;
+    optional bool showSelectPlayer = 2;
+    optional string selectPlayerTip = 3;
+    optional int32 focusTab = 4;
+}
+
+
+message WelcomeField {
+    extend Packet {
+        required WelcomeField packet = 141;
+    }
+
+    optional TField field = 1;
+    optional TUnit me = 2;
+    repeated TUnit units = 3;
+    repeated TDropItem dropItems = 4;
+}
+
+message UnitJoined {
+    extend Packet {
+        required UnitJoined packet = 142;
+    }
+
+    optional TUnit unit = 1;
+}
+
+message UnitLeft {
+    extend Packet {
+        required UnitLeft packet = 143;
+    }
+
+    optional int64 unitID = 1;
+}
+
+message UnitMove {
+    extend Packet {
+        required UnitMove packet = 144;
+    }
+
+    optional TUnit unit = 1;
+
+    //
+    optional double timestamp = 9;
+    optional int32 dt = 3;
+    optional float velX = 4;
+    optional float velY = 5;
+    optional int32 command = 6 [default = 0];
+    repeated int64 args = 7;
+
+    optional bool fixPosition = 8;
+    optional int64 fieldID = 10;
+}
+
+message UnitUpdated {
+    extend Packet {
+        required UnitUpdated packet = 145;
+    }
+
+    optional TUnit unit = 1;
+    optional bool fixPosition = 2;
+}
+
+message UnitTouched {
+    extend Packet {
+        required UnitTouched packet = 146;
+    }
+
+    optional int64 targetID = 1;
+    optional float posX = 2;
+    optional float posY = 3;
+    optional bool click = 4;
+    optional int64 giveItemID = 5;
+}
+
+message MapObjectTouched {
+    extend Packet {
+        required MapObjectTouched packet = 147;
+    }
+
+    optional string name = 1;
+    optional int64 ownerID = 2;
+    optional int64 skillID = 3;
+}
+
+message UseSkill {
+    extend Packet {
+        required UseSkill packet = 148;
+    }
+
+    optional int32 skillID = 1;
+    optional int64 targetID = 2;
+    optional float posX = 3;
+    optional float posY = 4;
+    optional int64 unitID = 5;
+    optional float dirX = 6;
+    optional float dirY = 7;
+    optional int64 itemID = 8; // C->S
+    optional int32 itemDataID = 9; // S->C
+    optional int32 level = 10;
+
+    //
+    optional int32 distance = 11;
+    optional int32 penerationCount = 12;
+
+    optional bytes patternData = 13;
+}
+
+message UseSkillResult {
+    extend Packet {
+        required UseSkillResult packet = 149;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+
+    repeated int64 visibleSkills = 3;
+}
+
+message GetStats {
+    extend Packet {
+        required GetStats packet = 150;
+    }
+
+    optional int64 playerID = 1;
+    optional int32 mode = 2;
+}
+
+message GetStatsResult {
+    extend Packet {
+        required GetStatsResult packet = 151;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+    optional TPlayer player = 3;
+}
+
+message AddFriend {
+    extend Packet {
+        required AddFriend packet = 152;
+    }
+
+    optional string name = 1;
+    optional int64 playerID = 2;
+}
+
+message AddFriendResult {
+    extend Packet {
+        required AddFriendResult packet = 153;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message GetFriends {
+    extend Packet {
+        required GetFriends packet = 154;
+    }
+}
+
+message GetFriendsResult {
+    extend Packet {
+        required GetFriendsResult packet = 155;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+    repeated TPlayer friends = 3;
+    repeated TPlayer followers = 4;
+    optional bool allowFollowing = 5;
+    optional int32 friendshipPoints = 6;
+	optional int32 remainingCounts = 7;
+}
+
+message RemoveFriend {
+    extend Packet {
+        required RemoveFriend packet = 156;
+    }
+
+    optional int64 playerID = 1;
+}
+
+message RemoveFriendResult {
+    extend Packet {
+        required RemoveFriendResult packet = 157;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message FollowFriend {
+    extend Packet {
+        required FollowFriend packet = 158;
+    }
+
+    optional int64 playerID = 1;
+}
+
+message FollowFriendResult {
+    extend Packet {
+        required FollowFriendResult packet = 159;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message InviteFriend {
+    extend Packet {
+        required InviteFriend packet = 160;
+    }
+
+    optional int64 playerID = 1;
+}
+
+message InviteFriendResult {
+    extend Packet {
+        required InviteFriendResult packet = 161;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message SearchPlayer {
+    extend Packet {
+        required SearchPlayer packet = 162;
+    }
+
+    optional string keyword = 1;
+}
+
+message SearchPlayerResult {
+    extend Packet {
+        required SearchPlayerResult packet = 163;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+    repeated TPlayer players = 3;
+}
+
+message GetPlayerInfo {
+    extend Packet {
+        required GetPlayerInfo packet = 164;
+    }
+
+    optional int64 playerID = 1;
+}
+
+message GetPlayerInfoResult {
+    extend Packet {
+        required GetPlayerInfoResult packet = 165;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+    optional TPlayer player = 3;
+
+    optional TItem nameTag = 4;
+    optional TItem hat = 5;
+    optional TItem shirt = 6;
+    optional TItem pants = 8;
+    optional TItem gloves = 7;
+    optional TItem shoes = 9;
+    optional TItem ring = 10;
+    optional TItem necklace = 11;
+    optional TItem earring = 12;
+    optional TItem cape = 13;
+
+    optional bool housePublic = 14;
+
+	//
+	optional TItem coupleRing = 15;
+	repeated TItem miracleCards = 16;
+
+	optional bool showAvatarCard = 17;
+
+	optional int32 popularityVote = 18;
+	optional int32 maxPopularityVote = 19;
+}
+
+message MessageFriend {
+    extend Packet {
+        required MessageFriend packet = 166;
+    }
+
+    optional int64 playerID = 1;
+    optional string text = 2;
+}
+
+message MessageFriendResult {
+    extend Packet {
+        required MessageFriendResult packet = 167;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message BuyMegaphone {
+    extend Packet {
+        required BuyMegaphone packet = 168;
+    }
+
+    optional string text = 1;
+    optional bool special = 2;
+    optional uint32 color = 3;
+    optional bool useItem = 4;
+}
+
+message GotMegaphone {
+    extend Packet {
+        required GotMegaphone packet = 169;
+    }
+
+    optional string text = 1;
+    optional uint32 color = 2;
+}
+
+message GetClan {
+    extend Packet {
+        required GetClan packet = 170;
+    }
+}
+
+message GetClanResult {
+    extend Packet {
+        required GetClanResult packet = 171;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+    optional TClan clan = 3;
+    optional bool pushEnabled = 4;
+    repeated TPlayer joinRequests = 5;
+    optional bool newClanDonation = 6;
+}
+
+
+message DoClanFeature {
+    extend Packet {
+        required DoClanFeature packet = 172;
+    }
+
+    optional int64 id = 1;
+    repeated string args = 2;
+}
+
+message DoClanFeatureResult {
+    extend Packet {
+        required DoClanFeatureResult packet = 173;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message ClanSay {
+    extend Packet {
+        required ClanSay packet = 174;
+    }
+
+    optional int32 type = 1;
+    optional string text = 2;
+    optional uint32 color = 3;
+}
+
+message DestroyClan {
+    extend Packet {
+        required DestroyClan packet = 175;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 176;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message ChangeClanDesc {
+    extend Packet {
+        required ChangeClanDesc packet = 177;
+    }
+
+    optional string text = 1;
+}
+
+message ChangeClanDescResult {
+    extend Packet {
+        required ChangeClanDescResult packet = 178;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message ChangeClanNotice {
+    extend Packet {
+        required ChangeClanNotice packet = 179;
+    }
+
+    optional string text = 1;
+}
+
+message ChangeClanNoticeResult {
+    extend Packet {
+        required ChangeClanNoticeResult packet = 180;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message GiveClan {
+    extend Packet {
+        required GiveClan packet = 181;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 182;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message SetClanRole {
+    extend Packet {
+        required SetClanRole packet = 183;
+    }
+
+    optional int64 playerID = 1;
+    optional int32 role = 2;
+}
+
+message SetClanRoleResult {
+    extend Packet {
+        required SetClanRoleResult packet = 184;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message CreateClan {
+    extend Packet {
+        required CreateClan packet = 185;
+    }
+
+    optional string name = 1;
+}
+
+message CreateClanResult {
+    extend Packet {
+        required CreateClanResult packet = 186;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message LeaveClan {
+    extend Packet {
+        required LeaveClan packet = 187;
+    }
+}
+
+message LeaveClanResult {
+    extend Packet {
+        required LeaveClanResult packet = 188;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+message InviteClan {
+    extend Packet {
+        required InviteClan packet = 189;
+    }
+
+    optional string name = 1;
+}
+
+message InviteClanResult {
+    extend Packet {
+        required InviteClanResult packet = 190;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+}
+
+
+message SetWillText {
+    extend Packet {
+        required SetWillText packet = 191;
+    }
+
+    optional bool enabled = 1;
+    optional string text = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 192;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message CheckSendGiftTo {
+    extend Packet {
+        required CheckSendGiftTo packet = 193;
+    }
+
+    optional string playerName = 1;
+    optional int64 itemID = 2;
+}
+
+message CheckSendGiftToResult {
+    extend Packet {
+        required CheckSendGiftToResult packet = 194;
+    }
+
+    optional int32 status = 1;
+    optional string message = 2;
+    optional int64 playerID = 3;
+}
+
+message ChangeIntroduction {
+    extend Packet {
+        required ChangeIntroduction packet = 195;
+    }
+
+    optional string text = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 196;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional string introduction = 3;
+    }
+}
+
+message TChatUser {
+    optional int64 id = 1;
+    optional string name = 2;
+    //    optional string imageURL = 3;
+    //    optional string gender = 4;
+    //    optional int32 birthyear = 5;
+    //    optional string region = 6;
+    optional int64 readID = 7;
+    optional bool deleted = 8;
+}
+
+message TChatMessage {
+    optional int64 id = 1;
+    optional int64 senderID = 2;
+    optional int32 type = 3;
+    optional string text = 4;
+    optional int64 createdAt = 5;
+
+    optional string imageURL = 6;
+    optional uint32 color = 7;
+    optional string senderName = 8;
+}
+
+message TChat {
+    optional int64 id = 1;
+    optional int32 type = 2;
+    optional int32 state = 3;
+    optional int64 lastMessageID = 4;
+    optional int64 updatedAt = 5;
+    repeated TChatUser users = 6;
+    repeated TChatMessage messages = 7;
+    optional string lastMessage = 9;
+
+    // OPTIONAL
+    optional bool sameRegion = 10;
+}
+
+message Chats {
+    extend Packet {
+        required Chats packet = 197;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 198;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        repeated TChat chats = 3;
+    }
+}
+
+message ChatWrite {
+    extend Packet {
+        required ChatWrite packet = 199;
+    }
+
+    optional int64 chatID = 1;
+    optional TChatMessage message = 2;
+    optional TChat chat = 3;
+    optional int64 chatClanID = 4;
+
+    message Result {
+        extend Packet {
+            required Result packet = 200;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TChat chat = 3;
+    }
+}
+
+message ChatSeen {
+    extend Packet {
+        required ChatSeen packet = 201;
+    }
+
+    optional int64 chatID = 1;
+    optional int64 messageID = 2;
+}
+
+message StartChat {
+    extend Packet {
+        required StartChat packet = 202;
+    }
+
+    optional int64 targetID = 1;
+    optional string text = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 203;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional TChat chat = 3;
+    }
+}
+
+message JoinChat {
+    extend Packet {
+        required JoinChat packet = 204;
+    }
+
+    optional int64 chatID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 205;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional TChat chat = 3;
+        optional bool liked = 4;
+    }
+}
+
+message LeaveChat {
+    extend Packet {
+        required LeaveChat packet = 206;
+    }
+
+    optional int64 chatID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 207;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message BanClanMember {
+    extend Packet {
+        required BanClanMember packet = 208;
+    }
+
+    optional int64 playerID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 209;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message ToggleClanSubMaster {
+    extend Packet {
+        required ToggleClanSubMaster packet = 210;
+    }
+
+    optional int64 playerID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 211;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message JoinClan {
+    extend Packet {
+        required JoinClan packet = 212;
+    }
+
+    optional int64 id = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 213;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message ChatActive {
+    extend Packet {
+        required ChatActive packet = 214;
+    }
+
+    optional int64 chatID = 1;
+    optional bool active = 2;
+}
+
+message BuyWillText {
+    extend Packet {
+        required BuyWillText packet = 215;
+    }
+
+    optional int32 idx = 1;
+}
+
+
+message GetMailbox {
+    extend Packet {
+        required GetMailbox packet = 216;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 217;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TMail mails = 3;
+    }
+}
+
+message ReadMail {
+    extend Packet {
+        required ReadMail packet = 218;
+    }
+
+    optional int64 mailID = 1;
+    repeated string args = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 219;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TPlayer player = 3;
+    }
+}
+
+message GetEventDetails {
+    extend Packet {
+        required GetEventDetails packet = 220;
+    }
+
+    optional int64 id = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 221;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TEvent event = 3;
+    }
+}
+
+message ApplyEvent {
+    extend Packet {
+        required ApplyEvent packet = 222;
+    }
+
+    optional int64 id = 1;
+    repeated string args = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 223;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message MapObjectDetouched {
+    extend Packet {
+        required MapObjectDetouched packet = 224;
+    }
+
+    optional string name = 1;
+}
+
+message Toast {
+    extend Packet {
+        required Toast packet = 225;
+    }
+
+    optional string text = 1;
+}
+
+message ToggleClanPush {
+    extend Packet {
+        required ToggleClanPush packet = 226;
+    }
+
+    optional bool pushEnabled = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 227;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message TogglePush {
+    extend Packet {
+        required TogglePush packet = 228;
+    }
+
+    optional bool pushEnabled = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 229;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message LikePlayer {
+    extend Packet {
+        required LikePlayer packet = 230;
+    }
+
+    optional int64 playerID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 231;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetFurnitureReward {
+    extend Packet {
+        required GetFurnitureReward packet = 232;
+    }
+
+    optional int64 unitID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 233;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message RoomPlayerUpdated {
+    extend Packet {
+        required RoomPlayerUpdated packet = 234;
+    }
+
+    optional TPlayer player = 1;
+}
+
+message ShowEventPopup {
+    extend Packet {
+        required ShowEventPopup packet = 235;
+    }
+
+    optional int32 type = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 236;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message BanPlayer {
+    extend Packet {
+        required BanPlayer packet = 237;
+    }
+
+    optional int64 targetID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 238;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetAchievements {
+    extend Packet {
+        required GetAchievements packet = 239;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 240;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TAchievement achievements = 3;
+    }
+}
+
+message GetAchievementReward {
+    extend Packet {
+        required GetAchievementReward packet = 241;
+    }
+
+    optional int64 achievementID = 1;
+	optional int32 tabToGetAll = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 242;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 dones = 3;
+    }
+}
+
+message BuyChangePetName {
+    extend Packet {
+        required BuyChangePetName packet = 243;
+    }
+
+    optional int64 itemID = 1;
+    optional int64 petItemID = 2;
+    optional string name = 3;
+}
+
+message UnitAttacked {
+    extend Packet {
+        required UnitAttacked packet = 244;
+    }
+
+    optional int64 senderID = 1;
+    optional int64 targetID = 2;
+    optional float posX = 3;
+    optional float posY = 4;
+    optional int32 damage = 5;
+    optional bool critical = 8;
+
+    optional int32 skillDataID = 6;
+    optional int32 itemDataID = 7; // or itemID
+    optional int32 oldHP = 9;
+
+    optional int32 index = 10;
+
+    optional int64 hp = 11;
+
+    optional int64 itemID = 12; // or itemDataID
+	optional TItem titem = 13;
+
+	optional float directionX = 14;
+	optional float directionY = 15;
+
+	optional int64 damageSkinID = 16;
+
+	optional int64 barrior = 17;
+	optional int64 maxBarrior = 18;
+}
+
+// Craft 결과 전달용으로도 사용
+message GotGachaItems {
+    extend Packet {
+        required GotGachaItems packet = 245;
+    }
+
+    repeated TItem items = 1;
+    repeated int32 itemDays = 2;
+    repeated int32 itemLife = 4;
+    optional int64 continuousItemID = 3;
+
+	optional bool allowRetryPhoenix = 5;
+	optional int64 fromCompositionID = 6;
+}
+
+message GetFriendRecommendation {
+    extend Packet {
+        required GetFriendRecommendation packet = 246;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 247;
+        }
+
+        optional bool recommended = 1;
+        optional int32 gotCounter = 2;
+        optional int32 rewardAvailableCounter = 3;
+    }
+}
+
+message RecommendFriend {
+    extend Packet {
+        required RecommendFriend packet = 248;
+    }
+
+    optional string name = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 249;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetRecommendationReward {
+    extend Packet {
+        required GetRecommendationReward packet = 250;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 251;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message UseCoupon {
+    extend Packet {
+        required UseCoupon packet = 252;
+    }
+
+    optional string code = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 253;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message WaitRankGame {
+    extend Packet {
+        required WaitRankGame packet = 254;
+    }
+
+    optional int64 estimatedWaitTime = 1;
+    optional int64 currentWaitTime = 2;
+    optional bool isDormant = 3;
+    optional int32 rank = 4;
+    optional int32 tier = 5;
+    optional int32 wins = 6;
+    optional int32 loses = 7;
+    optional int32 escapes = 8;
+    optional bool isTierPromotionSeries = 9;
+    optional int32 tierPromotionSeriesCount = 10;
+    optional int32 tierPromotionSeriesWins = 11;
+}
+
+message CancelWaitRankGame {
+    extend Packet {
+        required CancelWaitRankGame packet = 255;
+    }
+}
+
+message FoundRankGame {
+    extend Packet {
+        required FoundRankGame packet = 256;
+    }
+
+    optional int64 time = 1;
+    optional int32 rank = 2;
+    optional int32 tier = 3;
+    optional int32 wins = 4;
+    optional int32 loses = 5;
+    optional int32 escapes = 6;
+}
+
+message GetMatchedPlayerCount {
+    extend Packet {
+        required GetMatchedPlayerCount packet = 257;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 258;
+        }
+
+        optional int32 count = 1;
+    }
+}
+
+message BuyRandombox {
+    extend Packet {
+        required BuyRandombox packet = 259;
+    }
+
+    optional bool isFree = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 260;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional string itemName = 3;
+    }
+}
+
+message GetReplayMetaInfo {
+    extend Packet {
+        required GetReplayMetaInfo packet = 261;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 262;
+        }
+
+        repeated TReplayMetaInfo replays = 1;
+    }
+}
+
+message PlayMoralEducation {
+    extend Packet {
+        required PlayMoralEducation packet = 263;
+    }
+}
+
+message EndedMoralEducation {
+    extend Packet {
+        required EndedMoralEducation packet = 264;
+    }
+}
+
+message CompleteGooglePlayAchievement {
+    extend Packet {
+        required CompleteGooglePlayAchievement packet = 265;
+    }
+
+    optional string googleAchievementID = 1;
+}
+
+message BuyChangeClanName {
+    extend Packet {
+        required BuyChangeClanName packet = 266;
+    }
+
+    optional int64 itemID = 1;
+    optional string name = 2;
+}
+
+message BuyChangeClanNameColor {
+    extend Packet {
+        required BuyChangeClanNameColor packet = 267;
+    }
+
+    optional int64 itemID = 1;
+    optional uint32 color = 2;
+    optional bool continuous = 3;
+}
+
+message PutTile {
+    extend Packet {
+        required PutTile packet = 268;
+    }
+
+    optional int32 layerID = 1;
+    optional int32 posX = 2;
+    optional int32 posY = 3;
+    optional TTile tile = 4;
+    optional int64 itemID = 5;
+
+    message Result {
+        extend Packet {
+            required Result packet = 269;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 layerID = 3;
+        optional int32 posX = 4;
+        optional int32 posY = 5;
+        optional TTile tile = 6;
+    }
+}
+
+message MoveTile {
+    extend Packet {
+        required MoveTile packet = 270;
+    }
+
+    optional int32 layerID = 1;
+    optional int32 srcPosX = 2;
+    optional int32 srcPosY = 3;
+    optional TTile tile = 4;
+    optional int32 destPosX = 5;
+    optional int32 destPosY = 6;
+
+    message Result {
+        extend Packet {
+            required Result packet = 271;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 layerID = 3;
+        optional int32 posX = 4;
+        optional int32 posY = 5;
+        optional TTile tile = 6;
+    }
+}
+
+message TakeRewardTile {
+    extend Packet {
+        required TakeRewardTile packet = 272;
+    }
+
+    optional int32 layerID = 1;
+    optional int32 posX = 2;
+    optional int32 posY = 3;
+    optional TTile tile = 4;
+
+    message Result {
+        extend Packet {
+            required Result packet = 273;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TTile tile = 3;
+    }
+}
+
+message PutWaterTile {
+    extend Packet {
+        required PutWaterTile packet = 274;
+    }
+
+    optional int32 layerID = 1;
+    optional int32 posX = 2;
+    optional int32 posY = 3;
+    optional TTile tile = 4;
+
+    message Result {
+        extend Packet {
+            required Result packet = 275;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TTile tile = 3;
+    }
+}
+
+message FieldUpdated {
+    extend Packet {
+        required FieldUpdated packet = 280;
+    }
+
+    optional TField field = 1;
+}
+
+message GetFarmRooms {
+    extend Packet {
+        required GetFarmRooms packet = 281;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 282;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TRoomStub channels = 3;
+        repeated TRoomStub fields = 4;
+        repeated TRoomStub towns = 5;
+        repeated TRoomStub dungeons = 6;
+    }
+}
+
+message ToggleFarmSecret {
+    extend Packet {
+        required ToggleFarmSecret packet = 283;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 284;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetBingo {
+    extend Packet {
+        required GetBingo packet = 285;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 286;
+        }
+
+        optional int32 bingoPoints = 1;
+        optional TBingo tbingo = 2;
+    }
+}
+
+message BuyBingo {
+    extend Packet {
+        required BuyBingo packet = 287;
+    }
+
+    optional bool isCorrect = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 288;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 bingoPoints = 3;
+        optional int32 pickedNumber = 4;
+        optional int32 pickedIndex = 5;
+    }
+}
+
+message ChangeBingoFinalReward {
+    extend Packet {
+        required ChangeBingoFinalReward packet = 289;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 290;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 bingoPoints = 3;
+        optional int64 finalRewardItemID = 4;
+        optional int32 finalRewardItemGrade = 5;
+        optional int32 finalRewardItemCount = 6;
+        optional int32 finalRewardItemDay = 7;
+    }
+}
+
+message ChangeBingoBoard {
+    extend Packet {
+        required ChangeBingoBoard packet = 291;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 292;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 bingoPoints = 3;
+        optional TBingo tbingo = 4;
+    }
+}
+
+message ClearNextInitializationTime {
+    extend Packet {
+        required ClearNextInitializationTime packet = 293;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 294;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 bingoPoints = 3;
+        optional TBingo tbingo = 4;
+    }
+}
+
+message WaitHideAndSeek {
+    extend Packet {
+        required WaitHideAndSeek packet = 295;
+    }
+
+    optional int64 estimatedWaitTime = 1;
+    optional int64 currentWaitTime = 2;
+    optional int32 wins = 3;
+    optional int32 loses = 4;
+    optional int32 escapes = 5;
+}
+
+message CancelWaitHideAndSeek {
+    extend Packet {
+        required CancelWaitHideAndSeek packet = 296;
+    }
+}
+
+message FoundHideAndSeek {
+    extend Packet {
+        required FoundHideAndSeek packet = 297;
+    }
+
+    optional int64 time = 1;
+}
+
+message WaitMafiaGame {
+    extend Packet {
+        required WaitMafiaGame packet = 298;
+    }
+
+    optional int64 estimatedWaitTime = 1;
+    optional int64 currentWaitTime = 2;
+    optional int32 winningStreak = 3;
+    optional int32 wins = 4;
+    optional int32 loses = 5;
+    optional int32 escapes = 6;
+}
+
+message CancelWaitMafiaGame {
+    extend Packet {
+        required CancelWaitMafiaGame packet = 299;
+    }
+}
+
+message FoundMafiaGame {
+    extend Packet {
+        required FoundMafiaGame packet = 300;
+    }
+
+    optional int64 time = 1;
+}
+
+message ShowTutorial {
+    extend Packet {
+        required ShowTutorial packet = 301;
+    }
+
+    optional int32 tutorial = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 302;
+        }
+
+        optional int32 tutorial = 1;
+        optional int32 status = 2;
+    }
+}
+
+message ClearFarm {
+    extend Packet {
+        required ClearFarm packet = 303;
+    }
+}
+
+message ShowPocketMoneyPopup {
+    extend Packet {
+        required ShowPocketMoneyPopup packet = 304;
+    }
+
+    optional string pocketMoneyID = 1;
+    optional int32 type = 2;
+    optional int64 unitDataID = 3;
+    optional string text = 4;
+}
+
+message GetPocketMoney {
+    extend Packet {
+        required GetPocketMoney packet = 305;
+    }
+
+    optional string pocketMoneyID = 1;
+}
+
+message JoinPlayerFarm {
+    extend Packet {
+        required JoinPlayerFarm packet = 306;
+    }
+
+    optional int64 playerID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 307;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message ChangeFarmSettings {
+    extend Packet {
+        required ChangeFarmSettings packet = 308;
+    }
+
+    optional string introduction = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 309;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetFarmGuestbook {
+    extend Packet {
+        required GetFarmGuestbook packet = 310;
+    }
+
+    optional int64 playerID = 1;
+    optional int64 maxID = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 311;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        repeated TGuestbook guestbooks = 3;
+        optional bool ended = 4;
+        optional TPlayer player = 5;
+        optional string introduction = 6;
+    }
+}
+
+message PostFarmGuestbook {
+    extend Packet {
+        required PostFarmGuestbook packet = 312;
+    }
+
+    optional int64 playerID = 1;
+    optional string text = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 313;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional TGuestbook guestbook = 3;
+    }
+}
+
+message DeleteFarmGuestbook {
+    extend Packet {
+        required DeleteFarmGuestbook packet = 314;
+    }
+
+    optional int64 id = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 315;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message UpdateFarmGuestbook {
+    extend Packet {
+        required UpdateFarmGuestbook packet = 316;
+    }
+
+    optional int64 id = 1;
+    optional string text = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 317;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional TGuestbook guestbook = 3;
+    }
+}
+
+message GetCoinSupplyInfo {
+    extend Packet {
+        required GetCoinSupplyInfo packet = 318;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 319;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional int32 giftLevel = 3;
+        optional int64 giftMoney = 4;
+        optional int64 maxGiftMoney = 5;
+
+        //
+        optional int32 coinLevel = 6;
+        optional int64 coinMoney = 7;
+        optional int64 maxCoinMoney = 8;
+    }
+}
+
+message GetCoinSupplyReward {
+    extend Packet {
+        required GetCoinSupplyReward packet = 320;
+    }
+
+    optional int32 type = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 321;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message ChangeFarmIntroduction {
+    extend Packet {
+        required ChangeFarmIntroduction packet = 322;
+    }
+
+    optional string text = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 323;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetCollectingEvent {
+    extend Packet {
+        required GetCollectingEvent packet = 324;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 325;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 count = 3;
+        optional int32 rank = 4;
+        optional int32 prevRewardStep = 5;
+        optional int32 rewardStep = 6;
+    }
+}
+
+message SpawnCollectingObject {
+    extend Packet {
+        required SpawnCollectingObject packet = 326;
+    }
+
+    optional TUnit unit = 1;
+}
+
+message TouchCollectingObject {
+    extend Packet {
+        required TouchCollectingObject packet = 327;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 328;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 count = 3;
+        optional int32 rank = 4;
+    }
+}
+
+message TNPCCommand {
+    optional int32 type = 1;
+    optional string name = 2;
+    optional string text = 3;
+    repeated TItem items = 4;
+    repeated string selections = 5;
+    repeated TQuest quests = 6;
+    optional bool shopSellable = 7;
+}
+
+message GotNPCCommand {
+    extend Packet {
+        required GotNPCCommand packet = 329;
+    }
+
+    repeated TNPCCommand commands = 1;
+}
+
+message NPCCommandReply {
+    extend Packet {
+        required NPCCommandReply packet = 330;
+    }
+
+    optional int32 result = 1;
+    optional int64 questID = 2;
+}
+
+message TWeather {
+    optional int32 events = 1;
+}
+
+message WeatherUpdated {
+    extend Packet {
+        required WeatherUpdated packet = 331;
+    }
+
+    optional TWeather weather = 1;
+}
+
+message UseGameItem {
+    extend Packet {
+        required UseGameItem packet = 332;
+    }
+
+    optional int64 itemID = 1;
+    optional int32 tilePosX = 2;
+    optional int32 tilePosY = 3;
+
+    optional bool fillWater = 4;
+    optional bool unseal = 5;
+
+    message Result {
+        extend Packet {
+            required Result packet = 333;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message EquipGameItem {
+    extend Packet {
+        required EquipGameItem packet = 334;
+    }
+
+    optional int64 unitID = 1;
+    optional TItem item = 2;
+}
+
+message SwapGameItem {
+    extend Packet {
+        required SwapGameItem packet = 335;
+    }
+
+    optional int32 slotID1 = 1;
+    optional int32 slotID2 = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 336;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional bool composed = 3;
+    }
+
+}
+
+
+message BuyNPCShopItem {
+    extend Packet {
+        required BuyNPCShopItem packet = 337;
+    }
+
+    optional int64 itemID = 1;
+    optional int32 count = 2;
+    optional int32 bagSlotID = 3;
+
+    message Result {
+        extend Packet {
+            required Result packet = 338;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message SellNPCShopItem {
+    extend Packet {
+        required SellNPCShopItem packet = 339;
+    }
+
+    optional int64 bagItemID = 1;
+    optional int32 count = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 340;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message QuestUpdated {
+    extend Packet {
+        required QuestUpdated packet = 341;
+    }
+
+    optional TQuest quest = 1;
+}
+
+message UnitFishingStarted {
+    extend Packet {
+        required UnitFishingStarted packet = 342;
+    }
+}
+
+message UnitFishBitTheBait {
+    extend Packet {
+        required UnitFishingStarted packet = 343;
+    }
+
+    optional TItem item = 1;
+}
+
+message UnitFishingDone {
+    extend Packet {
+        required UnitFishingDone packet = 344;
+    }
+
+    optional bool success = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 345;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional int64 unitID = 3;
+        optional TItem item = 4;
+    }
+}
+
+message GetBirthday {
+    extend Packet {
+        required GetBirthday packet = 346;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 347;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        repeated TBirthday birthdays = 3;
+        optional int32 year = 4;
+        optional int32 month = 5;
+    }
+}
+
+message TradeRequest {
+    extend Packet {
+        required TradeRequest packet = 348;
+    }
+
+    optional int64 senderID = 1;
+    optional string senderName = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 349;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message TradeRequestReply {
+    extend Packet {
+        required TradeRequestReply packet = 350;
+    }
+
+    optional bool allow = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 351;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message TTrade {
+    optional int64 id = 1;
+    optional int64 senderID = 2;
+    optional int64 receiverID = 3;
+    optional string senderName = 4;
+    optional string receiverName = 5;
+    optional uint32 senderNameColor = 6;
+    optional uint32 receiverNameColor = 7;
+
+    repeated TItem senderItems = 8;
+    repeated TItem receiverItems = 9;
+
+    optional bool senderDone = 10;
+    optional bool receiverDone = 11;
+}
+
+message TradeDestroy {
+    extend Packet {
+        required TradeDestroy packet = 352;
+    }
+
+    optional TTrade trade = 1;
+}
+
+message TradeRefresh {
+    extend Packet {
+        required TradeRefresh packet = 353;
+    }
+
+    optional int64 senderID = 1;
+    optional TTrade trade = 2;
+}
+
+message TNPCFame {
+    optional int64 unitDataID = 1;
+    optional int32 fames = 2;
+    optional int32 giftboxes = 3;
+    optional string faceURL = 4;
+}
+
+message GetNPCFames {
+    extend Packet {
+        required GetNPCFames packet = 354;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 355;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TNPCFame fames = 3;
+    }
+}
+
+message TDropItem {
+    optional int64 id = 1;
+    optional int64 itemID = 2;
+    optional int64 count = 3;
+    optional float posX = 4;
+    optional float posY = 5;
+}
+
+message DropItemAdded {
+    extend Packet {
+        required DropItemAdded packet = 356;
+    }
+
+    optional TDropItem dropItem = 1;
+    optional bool erupt = 2;
+}
+
+message DropItemRemoved {
+    extend Packet {
+        required DropItemRemoved packet = 357;
+    }
+
+    optional int64 dropItemID = 1;
+    optional int64 ownerUnitID = 2;
+}
+
+message GetDropItem {
+    extend Packet {
+        required GetDropItem packet = 358;
+    }
+
+    optional int64 dropItemID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 359;
+        }
+
+        optional int32 status = 1;
+        //        optional TDropItemBag bag = 2;
+        optional TDropItem dropItem = 2;
+    }
+}
+
+message DropBagItem {
+    extend Packet {
+        required DropBagItem packet = 360;
+    }
+
+    optional int64 itemID = 1;
+    optional int32 count = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 361;
+        }
+
+        optional int32 status = 1;
+    }
+}
+
+message TradePutItem {
+    extend Packet {
+        required TradePutItem packet = 362;
+    }
+
+    optional int64 senderID = 1;
+    optional int32 idx = 2;
+    optional TItem item = 3;
+}
+
+message TradeCommand {
+    extend Packet {
+        required TradeCommand packet = 363;
+    }
+
+    optional int32 command = 1;
+    repeated string args = 2;
+}
+
+message SleepUnit {
+    extend Packet {
+        required SleepUnit packet = 364;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 365;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message QuestDeleted {
+    extend Packet {
+        required QuestDeleted packet = 366;
+    }
+
+    optional int64 questID = 1;
+}
+
+message CraftItem {
+    extend Packet {
+        required CraftItem packet = 367;
+    }
+
+    repeated TItem materials = 1;
+    optional int32 bagIdx = 2;
+    optional int32 count = 3;
+
+    message Result {
+        extend Packet {
+            required Result packet = 368;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TItem item = 3;
+    }
+}
+
+message ComposeMusic {
+    extend Packet {
+        required ComposeMusic packet = 369;
+    }
+
+    optional TItem item = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 370;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TItem item = 3;
+    }
+}
+
+message SetNPCFace {
+    extend Packet {
+        required SetNPCFace packet = 371;
+    }
+
+    optional int64 unitDataID = 1;
+    optional string faceURL = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 372;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message TileAttacked {
+    extend Packet {
+        required TileAttacked packet = 373;
+    }
+
+    optional int64 unitID = 1;
+    optional int32 layerID = 2;
+    optional int32 tileX = 3;
+    optional int32 tileY = 4;
+}
+
+message Respawn {
+    extend Packet {
+        required Respawn packet = 374;
+    }
+
+    optional int32 type = 1;
+    optional bool watchedAD = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 375;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+//message LoginEdge {
+//    extend Packet {
+//        required LoginEdge packet = 376;
+//    }
+//
+//    optional int64 roomID = 1;
+//    optional string roomSecret = 2;
+//
+//    // [Edge Server]
+//    optional string snsID = 3;
+//    optional string snsName = 4;
+//    optional int32 clientVersion = 5;
+//    optional string deviceID = 6;
+//    optional string deviceOS = 7;
+//    optional string language = 8;
+//
+//    message Result {
+//        extend Packet {
+//            required Result packet = 377;
+//        }
+//
+//        optional int32 status = 1;
+//        optional string message = 2;
+//        optional int64 roomID = 3;
+//        optional TRoom room = 4;
+//    }
+//}
+
+message ShowEventText {
+    extend Packet {
+        required ShowEventText packet = 378;
+    }
+
+    optional string text = 1;
+}
+
+message UpgradeBagItem {
+    extend Packet {
+        required UpgradeBagItem packet = 379;
+    }
+
+    optional int64 itemID = 1;
+    repeated int64 materialIDs = 2;
+    optional int32 type = 3;
+
+    // 0 = 일반 강화
+    // 100 = 큐브 강화
+    // 200 = 돌 오토스킬 강화
+	// 300 = 태양석 강화 (태양석 level)
+	// 301 = 태양석 강화 (태양석 grade)
+
+    optional bool useDownPrevention = 4;
+    optional bool useDoubleUpgrade = 5;
+
+    message Result {
+        extend Packet {
+            required Result packet = 380;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message ResetBuffTimer {
+    extend Packet {
+        required ResetBuffTimer packet = 381;
+    }
+
+    optional int32 itemID = 1;
+}
+
+message EnableBuff {
+    extend Packet {
+        required EnableBuff packet = 382;
+    }
+
+    optional int32 itemID = 1;
+    optional bool enabled = 2;
+}
+
+message ItemAutoComposed {
+    extend Packet {
+        required ItemAutoComposed packet = 383;
+    }
+
+    optional int64 slot1ID = 1;
+    optional TItem slot2 = 2;
+}
+
+message LockItem {
+    extend Packet {
+        required LockItem packet = 384;
+    }
+
+    optional int64 itemID = 1;
+    optional bool locked = 2;
+}
+
+message AchievementUpdated {
+    extend Packet {
+        required AchievementUpdated packet = 385;
+    }
+
+    optional TAchievement achievement = 1;
+}
+
+message CollectedMonster {
+    extend Packet {
+        required CollectedMonster packet = 386;
+    }
+
+    optional int32 dataID = 1;
+}
+
+message GotCoin {
+    extend Packet {
+        required GotCoin packet = 387;
+    }
+
+    optional float posX = 1;
+    optional float posY = 2;
+}
+
+message CollectedItem {
+    extend Packet {
+        required CollectedItem packet = 388;
+    }
+
+    optional int32 dataID = 1;
+}
+
+message UpdateBagItem {
+    extend Packet {
+        required UpdateBagItem packet = 389;
+    }
+
+    optional TItem item = 1;
+}
+
+message PlaySynopsys {
+    extend Packet {
+        required PlaySynopsys packet = 390;
+    }
+}
+
+message PlaySynopsysDone {
+    extend Packet {
+        required PlaySynopsysDone packet = 391;
+    }
+}
+
+message DestroyBagItem {
+    extend Packet {
+        required DestroyBagItem packet = 392;
+    }
+
+    optional int64 itemID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 393;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message ConnectSocial {
+    extend Packet {
+        required ConnectSocial packet = 394;
+    }
+
+    optional string snsID = 1;
+    optional bool swap = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 395;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional string targetName = 3;
+    }
+}
+
+message ClanDonateCoin {
+    extend Packet {
+        required ClanDonateCoin packet = 396;
+    }
+
+    optional int64 coin = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 397;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional int64 clanCoin = 3;
+    }
+}
+
+message GetSpiritOffers {
+    extend Packet {
+        required GetSpiritOffers packet = 398;
+    }
+
+    optional bool buyReset = 1;
+    optional bool reset = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 399;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional int64 resetAt = 3;
+        repeated TItem items = 4;
+    }
+}
+
+message BuySpiritOffer {
+    extend Packet {
+        required BuySpiritOffer packet = 400;
+    }
+
+    optional int32 itemDataID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 401;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message BlockChat {
+    extend Packet {
+        required BlockChat packet = 402;
+    }
+
+    optional int64 targetID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 403;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message DeleteBlockChat {
+    extend Packet {
+        required DeleteBlockChat packet = 404;
+    }
+
+    optional int64 targetID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 405;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetChatBlockedList {
+    extend Packet {
+        required GetChatBlockedList packet = 406;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 407;
+        }
+
+        repeated int64 targetIDs = 1;
+        repeated string targetNames = 2;
+    }
+}
+
+message SendAdventure {
+    extend Packet {
+        required SendAdventure packet = 408;
+    }
+
+    optional int64 itemID = 1;
+    optional bool getReward = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 409;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional TItem item = 3;
+    }
+}
+
+message GetChannels {
+    extend Packet {
+        required GetChannels packet = 410;
+    }
+
+    optional int64 mapID = 1;
+    optional int32 mode = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 411;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        repeated TRoomStub rooms = 3;
+    }
+}
+
+message WatchADStarted {
+    extend Packet {
+        required WatchADStarted packet = 412;
+    }
+}
+
+message WatchADStopped {
+    extend Packet {
+        required WatchADStopped packet = 413;
+    }
+}
+
+message DecomposeGameItem {
+    extend Packet {
+        required DecomposeGameItem packet = 414;
+    }
+
+    optional int64 itemID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 415;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+    }
+}
+
+message ToggleFollowing {
+    extend Packet {
+        required ToggleFollowing packet = 416;
+    }
+
+    optional bool enabled = 1;
+}
+
+message JoinStage {
+    extend Packet {
+        required JoinStage packet = 417;
+    }
+
+    optional int32 type = 1;
+    optional int32 stage = 2;
+    optional bool buyTicket = 3;
+
+    message Result {
+        extend Packet {
+            required Result packet = 418;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int64 ticketCashPrice = 3;
+
+		optional int32 ticketCountToBuy = 4;
+		repeated int64 ticketCashPrices = 5;
+    }
+}
+
+message SearchClans {
+    extend Packet {
+        required SearchClans packet = 419;
+    }
+
+    optional string keyword = 1;
+    optional bool onlyAutoAllow = 2;
+    optional int32 startIndex = 3;
+
+    message Result {
+        extend Packet {
+            required Result packet = 420;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TClanStub clans = 3;
+    }
+}
+
+message GetClanInfo {
+    extend Packet {
+        required GetClanInfo packet = 421;
+    }
+
+    optional int64 id = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 422;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TClan clan = 3;
+    }
+}
+
+message AllowJoinClan {
+    extend Packet {
+        required AllowJoinClan packet = 423;
+    }
+
+    optional int64 playerID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 424;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message DisallowJoinClan {
+    extend Packet {
+        required DisallowJoinClan packet = 425;
+    }
+
+    optional int64 playerID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 426;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message SetClanAutoAllow {
+    extend Packet {
+        required SetClanAutoAllow packet = 427;
+    }
+
+    optional bool autoAllow = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 428;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message UpdateCashItem {
+    extend Packet {
+        required UpdateCashItem packet = 429;
+    }
+
+    optional TItem item = 1;
+}
+
+message GetStages {
+    extend Packet {
+        required GetStages packet = 430;
+    }
+
+    optional int32 type = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 431;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TStage stages = 3;
+        optional int32 maxTickets = 4;
+    }
+}
+
+message CompleteStage {
+    extend Packet {
+        required CompleteStage packet = 432;
+    }
+
+    optional int32 type = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 433;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetClanIDByPlayerID {
+    extend Packet {
+        required GetClanIDByPlayerID packet = 434;
+    }
+
+    optional int64 playerID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 435;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int64 clanID = 3;
+    }
+}
+
+message CreateParty {
+    extend Packet {
+        required CreateParty packet = 436;
+    }
+
+    optional bool edit = 1;
+    optional TParty party = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 437;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TParty party = 3;
+    }
+}
+
+message SearchParty {
+    extend Packet {
+        required SearchParty packet = 438;
+    }
+
+    optional string name = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 439;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TParty party = 3;
+    }
+}
+
+message LeaveParty {
+    extend Packet {
+        required LeaveParty packet = 440;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 441;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message JoinParty {
+    extend Packet {
+        required JoinParty packet = 442;
+    }
+    
+    optional int64 partyID = 1;
+    optional string secret = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 443;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TParty party = 3;
+    }
+}
+
+message PartyUpdated {
+    extend Packet {
+        required PartyUpdated packet = 444;
+    }
+
+    optional TParty party = 1;
+}
+
+message UnitMove2 {
+    extend Packet {
+        required UnitMove2 packet = 445;
+    }
+
+    optional int64 unitID = 1;
+    optional int32 state = 2;
+    optional int32 posX = 3;
+    optional int32 posY = 4;
+    optional double timestamp = 5;
+    optional int32 direction = 6;
+    optional int32 moveSpeed = 7;
+    optional int32 command = 8 [default = 0];
+    repeated int64 args = 9;
+
+    optional bool fixPosition = 10;
+}
+
+message ClanAttendance {
+    extend Packet {
+        required ClanAttendance packet = 446;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 447;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 today_attendance = 3;
+        optional int32 yesterday_attendance = 4;
+        optional int32 yesterday_rewards = 5;
+
+		repeated TClanAttendanceListCell clanAttendanceList = 6;
+    }
+}
+
+message GetClanAttendanceReward {
+    extend Packet {
+        required GetClanAttendanceReward packet = 448;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 449;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message ClanDonate {
+    extend Packet {
+        required ClanDonate packet = 450;
+    }
+
+    optional int32 type = 1;
+    optional int32 count = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 451;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional TClan clan = 3;
+        optional int32 donatedStoneTokenCount = 4;
+        optional int32 donatedCoinCount = 5;
+        optional int32 stoneTokenResetCount = 6;
+        optional int32 coinResetCount = 7;
+    }
+}
+
+message JoinClanAgit {
+    extend Packet {
+        required JoinClanAgit packet = 452;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 453;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetClanShopItems {
+    extend Packet {
+        required GetClanShopItems packet = 454;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 455;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TItem items = 3;
+    }
+}
+
+message InviteParty {
+    extend Packet {
+        required InviteParty packet = 456;
+    }
+
+    optional int64 playerID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 457;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message UpgradeClanShopItem {
+    extend Packet {
+        required UpgradeClanShopItem packet = 458;
+    }
+
+    optional int64 itemID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 459;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int64 clanCoin = 3;
+        repeated TItem items = 4;
+    }
+}
+
+message ClanDonationReset {
+    extend Packet {
+        required ClanDonationReset packet = 460;
+    }
+
+    optional int32 type = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 461;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 stoneTokenResetCount = 3;
+        optional int32 coinResetCount = 4;
+    }
+}
+
+message DisconnectedByOtherDevice {
+    extend Packet {
+        required DisconnectedByOtherDevice packet = 462;
+    }
+}
+
+message AnswerQuiz {
+    extend Packet {
+        required AnswerQuiz packet = 463;
+    }
+
+    optional int32 itemID = 1;
+    optional double serverTime = 2;
+    optional bool correct = 3;
+
+    message Result {
+        extend Packet {
+            required Result packet = 464;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message KickParty {
+    extend Packet {
+        required KickParty packet = 465;
+    }
+
+    optional int64 playerID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 466;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message StartTrade {
+    extend Packet {
+        required StartTrade packet = 467;
+    }
+
+    optional int64 playerID = 1;
+}
+
+message UpgradeUnitCore {
+    extend Packet {
+        required UpgradeUnitCore packet = 468;
+    }
+
+    optional int64 unitID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 469;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message UpgradePet {
+    extend Packet {
+        required UpgradePet packet = 470;
+    }
+
+    optional int64 itemID = 1;
+    optional bool useDownPrevention = 2;
+    optional bool useDoubleUpgrade = 3;
+
+    message Result {
+        extend Packet {
+            required Result packet = 471;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+        optional int32 upgradeStepLevel = 3;
+    }
+}
+
+message SetMainPet {
+    extend Packet {
+        required SetMainPet packet = 472;
+    }
+
+    optional int64 itemID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 473;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message PutPetStorage {
+    extend Packet {
+        required PutPetStorage packet = 474;
+    }
+
+    optional int64 itemID = 1;
+    optional bool unlock = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 475;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message UnlockStoneStat {
+    extend Packet {
+        required UnlockStoneStat packet = 476;
+    }
+
+    optional int64 itemDataID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 477;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetVIPStatus {
+    extend Packet {
+        required GetVIPStatus packet = 478;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 479;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message RegisterVIP {
+    extend Packet {
+        required RegisterVIP packet = 480;
+    }
+
+    optional string email = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 481;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message BuyResetWeaponStats {
+    extend Packet {
+        required BuyResetWeaponStats packet = 482;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 483;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message UnitPatternMove {
+    extend Packet {
+        required UnitPatternMove packet = 484;
+    }
+
+    optional float posX = 1;
+    optional float posY = 2;
+    optional int32 speed = 3;
+}
+
+message SendFriendship {
+    extend Packet {
+        required SendFriendship packet = 485;
+    }
+
+    optional int64 targetID = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 486;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message CheckTicket {
+    extend Packet {
+        required CheckTicket packet = 487;
+    }
+
+    optional int32 ticketID = 1;
+    optional bool buyTicket = 2;
+
+	optional int32 ticketCountNeeded = 3;
+
+    message Result {
+        extend Packet {
+            required Result packet = 488;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int64 ticketCashPrice = 8;
+    }
+}
+
+message UnitReloadShot {
+    extend Packet {
+        required UnitReloadShot packet = 489;
+    }
+
+    optional int64 unitID = 1;
+    optional float reloadTime = 2;
+    optional int32 reloadCount = 3;
+}
+
+message ShowUnitDead {
+    extend Packet {
+        required ShowUnitDead packet = 490;
+    }
+
+    optional int32 type = 1;
+    optional int32 reviveCashPrice = 2;
+    optional int32 timer = 3;
+    optional string text = 4;
+    optional string desc = 5;
+
+    optional bool showReviveAD = 6;
+    optional bool showReviveNow5Minutes = 7;
+    optional bool showReviveNow = 8;
+    optional bool showLeave = 9;
+
+}
+
+message UnitPushed {
+    extend Packet {
+        required UnitPushed packet = 491;
+    }
+
+    optional int64 unitID = 1;
+    optional float posX = 2;
+    optional float posY = 3;
+    optional float time = 4;
+}
+
+message HidePopupDead {
+    extend Packet {
+        required HidePopupDead packet = 492;
+    }
+}
+
+message SkipGame {
+    extend Packet {
+        required SkipGame packet = 493;
+    }
+}
+
+message ClearPattern {
+    extend Packet {
+        required ClearPattern packet = 494;
+    }
+}
+
+message HandOverPartyMaster {
+    extend Packet {
+        required HandOverPartyMaster packet = 495;
+    }
+
+    optional int64 targetID = 1;
+}
+
+message SearchPlayers {
+    extend Packet {
+        required SearchPlayers packet = 496;
+    }
+
+    optional int32 type = 1;
+    optional string keyword = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 497;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TPlayerStub players = 3;
+    }
+}
+
+message BuyAdvertiseParty {
+    extend Packet {
+        required BuyAdvertiseParty packet = 498;
+    }
+
+    optional bool special = 1;
+    optional uint32 color = 2;
+}
+
+message GetVendingMachine {
+    extend Packet {
+        required GetVendingMachine packet = 502;
+    }
+
+    optional int64 vendingMachineID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 503;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TVendingItems vendingItems = 3;
+        optional int32 installFee = 4;
+    }
+}
+
+message PutVendingMachine {
+    extend Packet {
+        required PutVendingMachine packet = 504;
+    }
+
+    optional TVendingItems vendingItems = 3;
+    optional bool open = 4;
+
+    message Result {
+        extend Packet {
+            required Result packet = 505;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message BuyItemInVendingMachine {
+    extend Packet {
+        required BuyItemInVendingMachine packet = 506;
+    }
+
+    optional int64 vendingMachineID = 1;
+    optional int64 itemID = 2;
+    optional int32 itemCount = 3;
+
+    message Result {
+        extend Packet {
+            required Result packet = 507;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message PlayInstrument {
+    extend Packet {
+        required PlayInstrument packet = 508;
+    }
+
+    optional int64 unitID = 1;
+    optional string mml = 2;
+    optional float time = 3;
+    optional bool stopOthers = 4;
+}
+
+message ClosedVendingMachine {
+    extend Packet {
+        required ClosedVendingMachine packet = 509;
+    }
+
+    optional int64 vendingMachineID = 1;
+}
+
+message LeaveVendingMachine {
+    extend Packet {
+        required LeaveVendingMachine packet = 510;
+    }
+
+    optional int64 vendingMachineID = 1;
+}
+
+message TParty {
+    optional int64 id = 1;
+    optional string name = 2;
+    optional int32 minLevel = 3;
+    optional int32 maxLevel = 4;
+    optional int32 minAttack = 5;
+    optional int64 masterPlayerID = 6;
+    repeated TPlayer players = 7;
+    optional int32 maxPlayers = 8;
+    optional string secret = 9;
+    optional int64 mapID = 10;
+
+	optional int64 startMatchTime = 11;
+}
+
+message TStage {
+    optional int32 id = 1;
+    optional int32 clearCount = 2;
+}
+
+message TBirthday {
+    optional int32 day = 1;
+    optional int64 unitDataID = 2;
+}
+
+message TrackScene {
+    extend Packet {
+        required TrackScene packet = 500;
+    }
+
+    optional string name = 1;
+}
+
+message Test {
+    extend Packet {
+        required Test packet = 501;
+    }
+
+    optional string text = 1;
+}
+
+
+message GetCastleOccupiedInfo {
+	extend Packet {
+		required GetCastleOccupiedInfo packet = 511;
+	}
+
+	message Result {
+		extend Packet {
+			required Result packet = 512;
+		}
+		repeated TCastleOccupiedInfo _castleInfos = 1;
+	}
+}
+
+message SetBidding {
+	extend Packet {
+		required SetBidding packet = 513;
+	}
+
+	optional int64 clanId = 1;
+	optional int64 castleId = 2;
+	optional int64 biddingPrice = 3;
+
+	optional bool bidOnAnotherCastle = 4;
+
+	message Result {
+		extend Packet {
+			required Result packet = 514;
+		}
+
+		optional int32 status = 1;
+
+		optional string castleName_BiddedBefore = 2;
+		optional string castleName_BiddedNow = 3;
+	}
+}
+
+message MapObjectCollisionUpdated {
+    extend Packet {
+        required MapObjectCollisionUpdated packet = 515;
+    }
+
+    optional string name = 1;
+    optional int32 collideTo = 2;
+}
+
+message StartUnitCapture {
+    extend Packet {
+        required StartUnitCapture packet = 516;
+    }
+
+    optional int64 targetUnitID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 517;
+        }
+
+        optional int32 status = 1;
+        optional float time = 2;
+    }
+}
+
+message UnitCaptured {
+    extend Packet {
+        required UnitCaptured packet = 518;
+    }
+
+    optional int64 targetUnitID = 1;
+}
+
+message ChangeOccupiedCastleNotice {
+    extend Packet {
+        required ChangeOccupiedCastleNotice packet = 519;
+    }
+
+    optional string text = 1;
+
+	message Result {
+		extend Packet {
+			required Result packet = 520;
+		}
+
+		optional int32 status = 1;
+		optional string message = 2;
+	}
+}
+
+message ChangeOccupiedCastleVendingMachineFee {
+    extend Packet {
+        required ChangeOccupiedCastleVendingMachineFee packet = 521;
+    }
+
+    optional int32 fee = 1;
+
+	message Result {
+		extend Packet {
+			required Result packet = 522;
+		}
+
+		optional int32 status = 1;
+		optional string message = 2;
+	}
+}
+
+message GetTutorialReward {
+    extend Packet {
+        required GetTutorialReward packet = 523;
+    }
+
+    optional int32 tutorialRewardType = 1;
+
+	message Result {
+		extend Packet {
+			required Result packet = 524;
+		}
+
+		optional int32 status = 1;
+	    optional int32 tutorialRewardType = 2;
+	}
+}
+
+message StartBattleField {
+    extend Packet {
+        required StartBattleField packet = 525;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 526;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message CancelWaitBattleField {
+    extend Packet {
+        required CancelWaitBattleField packet = 527;
+    }
+}
+
+message FoundBattleField {
+    extend Packet {
+        required FoundBattleField packet = 528;
+    }
+}
+
+message GetBattleFieldInfo {
+    extend Packet {
+		required GetBattleFieldInfo packet = 529;
+	}
+
+	message Result {
+		extend Packet {
+			required Result packet = 530;
+		}
+
+        optional int32 state = 1;
+        optional int32 season = 2;
+        optional bool isDormant = 3;
+		optional int64 estimatedWaitTime = 4;
+        optional int64 currentWaitTime = 5;
+        optional int32 rank = 6;
+        optional int32 rating = 7;
+        optional int32 lastSeasonEmblem = 8;
+        optional bool isTierPromotionSeries = 9;
+        optional int32 tierPromotionSeriesCount = 10;
+        optional int32 tierPromotionSeriesWins = 11;
+        optional int32 currentToken = 12;
+	}
+}
+
+message SetQuestStart {
+    extend Packet {
+		required SetQuestStart packet = 531;
+	}
+
+	optional TQuest quest = 1;
+
+	message Result {
+		extend Packet {
+			required Result packet = 532;
+		}
+
+        optional int32 status = 1;
+		optional TQuest quest = 2;
+	}
+}
+
+message GetQuests {
+    extend Packet {
+        required GetQuests packet = 533;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 534;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TQuest quests = 3;
+    }
+}
+
+message SetQuestComplete {
+    extend Packet {
+		required SetQuestComplete packet = 535;
+	}
+
+	optional TQuest quest = 1;
+
+	message Result {
+		extend Packet {
+			required Result packet = 536;
+		}
+
+        optional int32 status = 1;
+		optional TQuest quest = 2;
+	}
+}
+
+message GetQuestRewards {
+    extend Packet {
+		required GetQuestRewards packet = 537;
+	}
+
+	optional TQuest quest = 1;
+	repeated TQuestReward rewards = 2;
+
+	message Result {
+		extend Packet {
+			required Result packet = 538;
+		}
+
+        optional int32 status = 1;
+		optional TQuest quest = 2;
+	}
+}
+
+message UpdateQuests {
+    extend Packet {
+		required UpdateQuests packet = 539;
+	}
+
+	repeated TQuest quests = 1;
+
+	message Result {
+		extend Packet {
+			required Result packet = 540;
+		}
+
+        optional int32 status = 1;
+	}
+}
+
+message SetQuestCancel {
+    extend Packet {
+		required SetQuestCancel packet = 541;
+	}
+
+	optional TQuest quest = 1;
+
+	message Result {
+		extend Packet {
+			required Result packet = 542;
+		}
+
+        optional int32 status = 1;
+		optional TQuest quest = 2;
+	}
+}
+
+message RequestQuestSubEvent {
+	extend Packet {
+		required RequestQuestSubEvent packet = 543;
+	}
+
+	optional int64 questID = 1;
+	optional int64 subEventID = 2;
+	
+	message Result {
+		extend Packet {
+			required Result packet = 544;
+		}
+
+        optional int32 status = 1;
+	}
+}
+
+message GetEventPetUpgradePercent {
+    extend Packet {
+		required GetEventPetUpgradePercent packet = 545;
+	}
+
+	message Result {
+        extend Packet {
+            required Result packet = 546;
+        }
+
+        optional int32 percent = 1;
+    }
+}
+
+message StartMiniGame {
+    extend Packet {
+		required StartMiniGame packet = 547;
+	}
+
+	message Result {
+        extend Packet {
+            required Result packet = 548;
+        }
+
+        optional int32 status = 1;
+		optional string message = 2;
+		optional int64 maxStoneLevel = 3;
+		optional int64 maxRewardGold = 4;
+		optional int64 rewardGoldUnit = 5;
+    }
+}
+
+message RequestMinigameReward {
+    extend Packet {
+		required RequestMinigameReward packet = 549;
+	}
+
+	optional int32 gameType = 1;
+	repeated int64 rewardIDs = 2;
+	optional int64 rewardGold = 3;
+	optional int32 score = 4;
+
+	message Result {
+        extend Packet {
+            required Result packet = 550;
+        }
+
+        optional int32 status = 1;
+		optional TItem ticket = 2;
+    }
+}
+
+message CheckItemGrade {
+    extend Packet {
+		required CheckItemGrade packet = 551;
+	}
+
+	optional int64 itemID = 1;
+
+	message Result {
+		extend Packet {
+			required Result packet = 552;
+		}
+
+        optional int32 status = 1;
+        optional string message = 2;
+	}
+}
+
+message GetCraftReward {
+    extend Packet {
+        required GetCraftReward packet = 553;
+    }
+
+    optional int32 slotID = 1;
+    optional bool direct = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 554;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TItem item = 3;
+    }
+}
+
+
+message GetCrafts {
+    extend Packet {
+        required GetCrafts packet = 555;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 556;
+        }
+
+        optional int32 status = 1;
+        repeated TCraftSlot slots = 2;
+
+		optional int64 boostUntilAt = 3;
+    }
+}
+
+message StartCraft {
+    extend Packet {
+        required StartCraft packet = 557;
+    }
+
+    optional int32 slot = 1;
+    optional int64 compositionID = 2;
+    optional bool retry = 3;
+
+	repeated int64 exceptItemList = 4;
+	optional TItem itemToRetry = 5;
+
+	repeated TItem selectedMaterials = 6;
+
+    message Result {
+        extend Packet {
+            required Result packet = 558;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message FoundItem {
+    extend Packet {
+        required FoundItem packet = 559;
+    }
+
+    optional TItem item = 1;
+    optional int32 craftSlotForRetry = 2;
+}
+
+message SetKnockBack{
+	extend Packet {
+		required SetKnockBack packet = 560;
+	}
+
+	optional float duration = 1;
+	optional int32 distance = 2;
+	optional int32 directionX = 3;
+	optional int32 directionY = 4;
+}
+
+message SetTutorialComplete {
+	extend Packet {
+		required SetTutorialComplete packet = 561;
+	}
+
+	optional int32 tutorialState = 1;
+}
+
+message GetFriendReward {
+	extend Packet {
+		required GetFriendReward packet = 562;
+	}
+
+	optional int64 targetID = 1;
+	optional int32 friendType = 2;
+
+	message Result {
+        extend Packet {
+            required Result packet = 563;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetCoupleInfo {
+	extend Packet {
+ 		required GetCoupleInfo packet = 564;
+ 	}
+
+	optional int64 playerID = 1;
+ 
+ 	message Result {
+		extend Packet {
+			required Result packet = 565;
+        }
+
+		optional int32 status = 1;
+		optional string message = 2;
+		optional TPlayer couplePlayer = 3;
+
+		optional TItem nameTag = 4;
+		optional TItem hat = 5;
+		optional TItem shirt = 6;
+		optional TItem pants = 8;
+		optional TItem gloves = 7;
+		optional TItem shoes = 9;
+		optional TItem ring = 10;
+		optional TItem necklace = 11;
+		optional TItem earring = 12;
+		optional TItem cape = 13;
+
+		optional bool housePublic = 14;
+
+		//
+		optional TItem coupleRing = 15;
+		optional string myLocation = 16;
+
+		optional int32 period = 17;
+	}
+}
+
+message SendLove {
+	extend Packet {
+		required SendLove packet = 566;
+	}
+
+	message Result {
+        extend Packet {
+            required Result packet = 567;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message ChangeMyCoupleMessage {
+    extend Packet {
+        required ChangeMyCoupleMessage packet = 568;
+    }
+
+    optional string text = 1;
+
+	message Result {
+        extend Packet {
+            required Result packet = 569;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+	}
+}
+
+message RequestBreakup {
+	extend Packet {
+		required RequestBreakup packet = 570;
+	}
+
+	optional int64 targetID = 1;
+
+	message Result {
+        extend Packet {
+            required Result packet = 571;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+	}
+}
+
+message RequestBeCouple {
+	extend Packet {
+		required RequestBeCouple packet = 572;
+	}
+
+	optional string targetName = 1;
+	optional int64	coupleType = 2;
+	optional int64	coupleringID = 3;
+
+	message Result {
+        extend Packet {
+            required Result packet = 573;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+	}
+}
+
+message AnswerConfession {
+	extend Packet {
+		required AnswerConfession packet = 574;
+	}
+
+	optional int64	targetID = 1;
+	optional bool	acceptConfession = 2;
+
+	message Result {
+        extend Packet {
+            required Result packet = 575;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+	}
+}
+
+message ChangeCoupleType {
+	extend Packet {
+		required ChangeCoupleType packet = 576;
+	}
+
+	optional int64	coupleType = 1;
+
+	message Result {
+        extend Packet {
+            required Result packet = 577;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+	}
+}
+
+message SetCoupleEffect {
+	extend Packet {
+		required SetCoupleEffect packet = 578;
+	}
+
+	optional bool turnOn = 1;
+}
+
+message CoupleModelUpdated {
+	extend Packet {
+		required SetCoupleEffect packet = 585;
+	}
+
+	optional TPlayer couplePlayer = 1;
+}
+
+message ShowConversation {
+	extend Packet {
+		required ShowConversation packet = 586;
+	}
+
+	optional int32 textID = 1;
+	optional string speaker = 2;
+	optional string text = 3;
+	optional bool hasNext = 4;
+	optional float duration = 5;
+}
+
+message StartArena {
+    extend Packet {
+        required StartArena packet = 579;
+    }
+
+    optional bool buyTicket = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 580;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message CancelWaitArena {
+    extend Packet {
+        required CancelWaitArena packet = 581;
+    }
+}
+
+message FoundArena {
+    extend Packet {
+        required FoundArena packet = 582;
+    }
+}
+
+message GetArenaInfo {
+    extend Packet {
+		required GetArenaInfo packet = 583;
+	}
+
+	message Result {
+		extend Packet {
+			required Result packet = 584;
+		}
+
+        optional int32 state = 1;
+        optional int32 season = 2;
+        optional bool isDormant = 3;
+		optional int64 estimatedWaitTime = 4;
+        optional int64 currentWaitTime = 5;
+        optional int32 rank = 6;
+        optional int32 rating = 7;
+        optional int32 lastSeasonEmblem = 8;
+        optional bool isTierPromotionSeries = 9;
+        optional int32 tierPromotionSeriesCount = 10;
+        optional int32 tierPromotionSeriesWins = 11;
+	}
+}
+
+message ShowSelectGachaReward {
+    extend Packet {
+		required ShowSelectGachaReward packet = 587;
+	}
+
+    optional int32 count = 1;
+    optional float time = 2;
+}
+
+message SelectGachaReward {
+	extend Packet {
+		required SelectGachaReward packet = 588;
+	}
+
+    optional bool additional = 1;
+	optional int32 slot = 2;
+
+	message Result {
+		extend Packet {
+			required Result packet = 589;
+		}
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 selectedSlot = 3;
+        optional int32 additionalSelectedSlot = 4;
+	}
+}
+
+message SelectGachaRewardTimeout {
+    extend Packet {
+        required SelectGachaRewardTimeout packet = 590;
+    }
+
+    repeated TItem items = 1;
+    repeated TItem additionalItems = 2;
+    optional int32 selectedSlot = 3;
+    optional int32 additionalSelectedSlot = 4;
+}
+
+message SetFieldQuest {
+    extend Packet {
+        required SetFieldQuest packet = 591;
+    }
+
+    optional TFieldQuest quest = 1;
+}
+
+message UpdateFieldQuest {
+    extend Packet {
+        required UpdateFieldQuest packet = 592;
+    }
+
+    optional int32 progress = 1;
+    optional int64 param = 2;
+}
+
+message ClearFieldQuest {
+    extend Packet {
+        required ClearFieldQuest packet = 593;
+    }
+}
+
+message ShowObjective {
+    extend Packet {
+        required ShowObjective packet = 594;
+    }
+
+    optional string title = 1;
+    optional string desc = 2;
+}
+
+message ShowPackage {
+	extend Packet {
+		required ShowPackage packet = 595;
+	}
+
+	optional int64 packageID = 1;
+	
+	message Result {
+		extend Packet {
+			required Result packet = 596;
+		}
+
+        optional int32 status = 1;
+        optional string message = 2;
+
+		optional int64 packageID = 3;
+		optional bool hasPackage = 4;
+		repeated int64 states = 5;
+	}
+}
+
+message ReceivePackageReward {
+	extend Packet {
+		required ReceivePackageReward packet = 597;
+	}
+
+	optional int64 packageID = 1;
+	optional int32 rewardIndex = 2;
+
+	message Result {
+		extend Packet {
+			required Result packet = 598;
+		}
+
+        optional int32 status = 1;
+        optional string message = 2;
+	}
+}
+
+message UnitActive {
+    extend Packet {
+        required UnitActive packet = 599;
+    }
+
+    optional TUnit unit = 1;
+    optional bool active = 2;
+}
+	
+message UpdateWeaponCooltime {
+	extend Packet {
+	    required UpdateWeaponCooltime packet = 600;
+	}
+
+	repeated TWeaponInfo weaponInfo = 1;
+}
+
+message GetStorageItems {
+    extend Packet {
+        required GetStorageItems packet = 601;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 602;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TItem items = 3;
+        optional int32 itemCapacity = 4;
+    }
+}
+
+message PutStorageItem {
+    extend Packet {
+        required PutStorageItem packet = 603;
+    }
+
+    optional int64 itemID = 1;
+    optional int32 count = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 604;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TItem items = 3;
+    }
+}
+
+message TakeStorageItem {
+    extend Packet {
+        required TakeStorageItem packet = 605;
+    }
+
+    optional int64 itemID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 606;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TItem items = 3;
+    }
+}
+
+message SearchExchangeItems {
+    extend Packet {
+	    required SearchExchangeItems packet = 607;
+	}
+
+	repeated int32 itemDataID = 1;
+	optional int32 category = 2;
+	optional int32 startIndex = 3;
+
+	optional int32 gradeMin = 4;
+    optional int32 gradeMax = 5;
+    optional int32 levelMin = 6;
+    optional int32 levelMax = 7;
+    optional bool orderByDesc = 8;
+
+    message Result {
+        extend Packet {
+            required Result packet = 608;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TExchangeItem items = 3;
+    }
+}
+
+message BuyExchangeItem {
+    extend Packet {
+	    required BuyExchangeItem packet = 609;
+	}
+
+	optional int64 exchangeItemID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 610;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetMyExchangeItems {
+    extend Packet {
+	    required GetMyExchangeItems packet = 611;
+	}
+
+	optional int32 type = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 612;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TExchangeItem items = 3;
+    }
+}
+
+message GetExchangeItemPriceInfo {
+    extend Packet {
+	    required GetExchangeItemPriceInfo packet = 613;
+	}
+
+	optional int32 itemDataID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 614;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional int32 minPrice = 3;
+        optional int32 maxPrice = 4;
+        optional int32 averagePrice = 5;
+    }
+}
+
+message PutExchangeItem {
+    extend Packet {
+	    required PutExchangeItem packet = 615;
+	}
+
+	optional int64 itemID = 1;
+    optional int32 count = 2;
+    optional int32 price = 3;
+
+    message Result {
+        extend Packet {
+            required Result packet = 616;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional TExchangeItem item = 3;
+    }
+}
+
+message CancelExchangeItem {
+    extend Packet {
+	    required CancelExchangeItem packet = 617;
+	}
+
+	optional int64 exchangeItemID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 618;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message ReceiveSettlementExchangeItem {
+    extend Packet {
+	    required ReceiveSettlementExchangeItem packet = 619;
+	}
+
+	optional int64 exchangeItemID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 620;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message StartArenaDuo {
+    extend Packet {
+        required StartArenaDuo packet = 621;
+    }
+
+    optional bool buyTicket = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 622;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message CancelWaitArenaDuo {
+    extend Packet {
+        required CancelWaitArena packet = 623;
+    }
+}
+
+message FoundArenaDuo {
+    extend Packet {
+        required FoundArena packet = 624;
+    }
+}
+
+
+message GetPlayerCollections {
+    extend Packet {
+	    required GetPlayerCollections packet = 625;
+	}
+
+	optional int64 collectionID = 1;
+	optional int32 tabType = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 626;
+        }
+		optional int32 status = 1;
+        optional string message = 2;
+		
+		optional TCollections collections = 3;
+    }
+}
+
+message RegisterCollectionItem {
+    extend Packet {
+	    required RegisterCollectionItem packet = 627;
+	}
+
+	optional int64 collectionID = 1;
+	optional int32 materialIndex = 2;
+	repeated TItem itemToRegister = 3;
+
+	optional int64 gameMoneyToRegister = 4;
+	optional int64 cashMoneyToRegister = 5;
+	optional int64 soulStoneUnitID = 6;
+	optional int64 soulStoneToRegister = 7;
+
+    message Result {
+        extend Packet {
+            required Result packet = 628;
+        }
+
+		optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetCollectionReward {
+    extend Packet {
+	    required GetCollectionReward packet = 629;
+	}
+
+	optional int64 collectionID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 630;
+        }
+
+		optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message RequestVerify {
+    extend Packet {
+        required RequestVerify packet = 631;
+    }
+
+    optional int32 step = 1;
+    optional string phoneNumber = 2;
+    optional string code = 3;
+    optional string email = 4;
+
+    message Result {
+        extend Packet {
+            required Result packet = 632;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message GetClanRoleNames {
+	extend Packet {
+		required GetClanRoleNames packet = 633;
+	}
+
+	message Result {
+        extend Packet {
+            required Result packet = 634;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+		repeated TClanRoleData roleData = 3;
+    }
+}
+
+message ChangeClanRoleNames {
+	extend Packet {
+		required ChangeClanRoleNames packet = 635;
+	}
+
+	repeated TClanRoleData roleData = 1;
+
+	message Result {
+        extend Packet {
+            required Result packet = 636;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message ChangeClanMemberRole {
+	extend Packet {
+		required ChangeClanMemberRole packet = 637;
+	}
+
+	optional int64 targetPlayerID = 1;
+	optional TClanRoleData roleData = 2;
+
+	message Result {
+        extend Packet {
+            required Result packet = 638;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message DistributeClanStoneToken {
+	extend Packet {
+		required DistributeClanStoneToken packet = 639;
+	}
+
+	repeated int64 targetPlayerID = 1;
+	optional int64 countToShare = 2;
+
+	message Result {
+		extend Packet {
+			required Result packet = 640;
+		}
+
+        optional int32 status = 1;
+        optional string message = 2;	
+	}
+}
+
+message GetDistributedStoneTokenLog {
+	extend Packet {
+		required GetDistributedStoneTokenLog packet = 641;
+	}
+
+	optional int64 clanID = 1;
+	optional int32 limit = 2;
+
+	message Result {
+		extend Packet {
+			required Result packet = 642;
+		}
+
+        optional int32 status = 1;
+        optional string message = 2;
+		repeated TClanStoneTokenLog logs = 3;
+	}
+}
+
+message StartPartyAutoMatching {
+    extend Packet {
+        required StartPartyAutoMatching packet = 643;
+    }
+
+	optional int64 mapID = 1;
+	optional bool setContinue = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 644;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+		optional int64 startMatchTime = 3;
+    }
+}
+
+message CancelWaitPartyAutoMatching {
+    extend Packet {
+        required CancelWaitPartyAutoMatching packet = 645;
+    }
+}
+
+message FoundPartyAutoMatching {
+    extend Packet {
+        required FoundPartyAutoMatching packet = 646;
+    }
+}
+
+message LockAutoCompose {
+	extend Packet {
+		required LockAutoCompose packet = 647;
+	}
+
+	optional int64 stoneID = 1;
+	optional bool isLock = 2;
+}
+
+message ShowReplayMode {
+	extend Packet {
+		required ShowReplayMode packet = 648;
+	}
+
+	optional int32 type = 1;
+    optional string text = 2;
+    optional string desc = 3;
+	
+	optional int64 ticketID = 4;
+	optional int32 ticketCount = 5;
+
+	optional TRoom troom = 6;
+}
+
+message ReplayCurrentMode {
+	extend Packet {
+		required ReplayCurrentMode packet = 649;
+	}
+}
+
+message ToggleShowAvatarSkinCard {
+    extend Packet {
+        required ToggleShowAvatarSkinCard packet = 650;
+    }
+
+    message Result {
+        extend Packet {
+            required Result packet = 651;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        optional bool showAvatarCard = 3;
+    }
+}
+
+message PlayerCheckDayContinued {
+	extend Packet {
+        required PlayerCheckDayContinued packet = 652;
+    }
+}
+
+message VotePopularity {
+    extend Packet {
+        required VotePopularity packet = 653;
+    }
+
+    optional int64 playerID = 1;
+    optional bool up = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 654;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+    }
+}
+
+message TCollectionUpdated {
+    extend Packet {
+        required TCollectionUpdated packet = 655;
+    }
+
+	optional TCollection tCollection = 1;
+}
+
+message TFieldQuest {
+    optional int32 type = 1;
+    optional string title = 2;
+    optional int32 progress = 3;
+    optional int64 value = 4;
+    optional int64 param = 5;
+    optional int64 completeParam = 6;
+}
+
+message TCraftSlot {
+    optional int32 id = 1;
+    optional TItem item = 2;
+    optional int32 state = 3;
+    optional int64 untilAt = 4;
+    optional int32 craftNowCashPrice = 5;
+
+	optional int64 untilAtReal = 6;
+}
+
+//
+message TBagItems {
+    repeated TItem items = 1;
+
+    //
+    optional TItem nameTag = 11;
+    optional TItem hat = 12;
+    optional TItem shirt = 13;
+    optional TItem earring = 14;
+    optional TItem pants = 15;
+    optional TItem shoes = 16;
+    optional TItem ring = 17;
+    optional TItem necklace = 18;
+    optional TItem gloves = 19;
+    optional TItem cape = 20;
+	optional TItem coupleRing = 21;
+
+	//
+	repeated TItem miracleCards = 22;
+}
+
+//
+message TVendingItems {
+    repeated TItem items = 1;
+    optional int64 playerID = 2;
+    optional bool open = 3;
+    optional string name = 4;
+    optional int64 untilAt = 5;
+    optional string playerName = 6;
+}
+
+message TEdge {
+    optional int64 id = 1;
+    optional string host = 2;
+    optional int32 port = 3;
+    optional string name = 4;
+    optional int32 latency = 5;
+}
+
+message TWeaponInfo {
+	optional int64 itemID = 1;
+	optional int64 weaponCooltime = 2;
+}
+
+message TExchangeItem {
+    optional int64 exchangeItemID = 1;
+    optional int64 playerID = 2;
+    optional TItem titem = 3;
+    optional int32 price = 4;
+    optional int32 settlementAmount = 5;
+    optional int32 state = 6;
+    optional int64 untilAt = 7;
+    optional int32 count = 8;
+}
+
+/* 
+	admin 
+*/
+message Admin_ShowPlayerItems {
+	extend Packet {
+		required Admin_ShowPlayerItems packet = 10001;
+	}
+
+	optional int64 targetID = 1;
+
+	message Result {
+		extend Packet {
+			required Result packet = 10002;
+		}
+
+		optional int32 status = 1;
+		optional string message = 2;
+
+		optional TPlayer targetPlayer = 3;
+	}
+}
+
+message Admin_RemovePlayerItem {
+	extend Packet {
+		required Admin_RemovePlayerItem packet = 10003;	
+	}
+
+	optional int64 targetID = 1;
+	optional int64 targetItemID = 2;
+	optional int32 countToRemove = 3;
+
+	message Result {
+		extend Packet {
+			required Result packet = 10004;
+		}
+
+		optional int32 status = 1;
+		optional string message = 2;
+	}
+}
+
+message Admin_ShowItemLogs {
+	extend Packet {
+		required Admin_ShowItemLogs packet = 10005;	
+	}
+
+	optional int64 targetID = 1;
+	optional int64 targetItemID = 2;
+	optional int32 logLimit = 3;
+
+	message Result {
+		extend Packet {
+			required Result packet = 10006;
+		}
+
+		optional int32 status = 1;
+		optional string message = 2;
+
+		repeated TAdmin_ItemLog logs = 3; 
+	}
+}
+
+message Admin_ShowSearchPlayer {
+    extend Packet {
+        required Admin_ShowSearchPlayer packet = 10007;
+    }
+}
+
+message Admin_SearchPlayer {
+    extend Packet {
+        required Admin_SearchPlayer packet = 10008;
+    }
+
+    optional string keyword = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 10009;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TPlayer players = 3;
+    }
+}
+
+message Admin_GetPlayerMails {
+    extend Packet {
+        required Admin_GetPlayerMails packet = 10010;
+    }
+
+    optional int64 targetID = 1;
+    optional int32 type = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 10011;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TMail mails = 3;
+    }
+}
+
+
+message Admin_DeletePlayerMail {
+    extend Packet {
+        required Admin_DeletePlayerMail packet = 10012;
+    }
+
+    optional int64 mailID = 1;
+    repeated string args = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 10013;
+        }
+        optional int32 status = 1;
+    }
+}
+
+message Admin_GetPlayerExchangeItems {
+    extend Packet {
+        required Admin_GetPlayerExchangeItems packet = 10014;
+    }
+
+    optional int64 targetID = 1;
+    optional int32 type = 2;
+
+    message Result {
+        extend Packet {
+            required Result packet = 10015;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TExchangeItem items = 3;
+    }
+}
+
+message Admin_DeleteExchangeItem {
+    extend Packet {
+        required Admin_DeleteExchangeItem packet = 10016;
+    }
+
+	optional int64 exchangeItemID = 1;
+
+    message Result {
+        extend Packet {
+            required Result packet = 10017;
+        }
+        optional int32 status = 1;
+    }
+}
+
+
+message Admin_GetPlayerStorage  {
+    extend Packet {
+        required Admin_GetPlayerStorage packet = 10018;
+    }
+
+    optional int64 targetID = 1;
+    message Result {
+        extend Packet {
+            required Result packet = 10019;
+        }
+
+        optional int32 status = 1;
+        optional string message = 2;
+        repeated TItem items = 3;
+        optional int32 itemCapacity = 4;
+    }
+}
+
+message Admin_RemovePlayerStorageItem {
+	extend Packet {
+		required Admin_RemovePlayerStorageItem packet = 10020;
+	}
+
+	optional int64 targetID = 1;
+	optional int64 targetItemID = 2;
+	optional int32 countToRemove = 3;
+
+	message Result {
+		extend Packet {
+			required Result packet = 10021;
+		}
+
+		optional int32 status = 1;
+		optional string message = 2;
+	}
+}
+
+message TAdmin_ItemLog {
+	optional int64 playerID = 1;
+	optional string playerName = 2;
+
+	optional int64 targetPlayerID = 3;
+	optional string targetPlayerName = 4;
+
+	optional int64 itemID = 5;
+	optional int64 itemDataID = 6;
+
+	optional string logType = 7;
+
+	optional int32 countAdded = 8;
+	optional int32 currentCount = 9;
+	optional int32 itemLevel = 10;
+	optional int32 itemGrade = 11;
+
+	optional string extraData = 12;
+	optional int64 createdAt = 13;
+}
