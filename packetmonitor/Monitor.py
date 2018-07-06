@@ -3,14 +3,14 @@ import socket
 import re
 import datetime
 import sys
-from time import sleep
+from time import sleep, time
 from PyQt5.QtWidgets import *
 from .Window import MonitorWindow
 import random
 
 class PacketMonitor:
     byte_limit = 10000
-    width = 1200
+    width = 1100
     height = 900
 
     def __init__(self):
@@ -107,16 +107,6 @@ class PacketMonitor:
                 self.window.update_packet_data(self.packets, self.unit, self.selected_packets, self.selected_time, now)
             sleep(self.unit)
 
-    def run(self):
-        thread1 = Thread(target=self.handle_packet)
-        thread1.start()
-
-        thread2 = Thread(target=self.periodic_update_canvas)
-        thread2.start()
-
-        self.window.show()
-        self.app.exec_()
-
     def update_time_unit_callback(self, unit):
         time_unit = unit[len(unit)-1]
         if time_unit == 's':
@@ -154,3 +144,12 @@ class PacketMonitor:
         now = int(datetime.datetime.now().timestamp())
         self.window.update_packet_data(self.packets, self.unit, self.selected_packets, selected_time, now, True)
 
+    def run(self):
+        thread1 = Thread(target=self.handle_packet)
+        thread1.start()
+
+        thread2 = Thread(target=self.periodic_update_canvas)
+        thread2.start()
+
+        self.window.show()
+        self.app.exec_()

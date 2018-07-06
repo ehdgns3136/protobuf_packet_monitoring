@@ -19,13 +19,15 @@ class MonitorWindow(QWidget):
 
         # firstLayout, set time unit
         self.unitComboBox = QComboBox()
+        self.unitComboBox.setStyleSheet("QComboBox {width: 30px; height: 25px;}")
+
         units = ["1s", "5s", "10s", "30s", "1m", "10m", "30m", "1h"]
         for unit in units:
             self.unitComboBox.addItem(unit)
         self.unitComboBox.activated[str].connect(self.unitComboBox_clicked)
 
         self.recordButton = QPushButton("record")
-        self.recordButton.setStyleSheet("QPushButton { background-color: red; color: white; }")
+        self.recordButton.setStyleSheet("QPushButton { background-color: #db2828; color: white; border-radius: 3px; width: 80px; height: 25px;} QPushButton::hover {background-color: #ba2121;}")
         self.recordButton.clicked.connect(self.record_state_change)
 
         firstLayout = QHBoxLayout()
@@ -47,7 +49,7 @@ class MonitorWindow(QWidget):
         layout.addLayout(firstLayout)
         layout.addLayout(secondLayout)
         layout.addLayout(thirdLayout)
-
+        self.setStyleSheet('background: white;')
         self.setLayout(layout)
 
     def unitComboBox_clicked(self, text):
@@ -69,7 +71,10 @@ class MonitorWindow(QWidget):
         self.table.update_is_record(is_record)
         self.is_record = is_record
         if is_record:
-            self.recordButton.setStyleSheet("QPushButton { background-color: red; color: white; }")
+            self.recordButton.setStyleSheet(
+                "QPushButton { background-color: #db2828; color: white; border-radius: 3px; width: 80px; height: 25px;} QPushButton::hover {background-color: #ba2121;}")
         else:
-            self.recordButton.setStyleSheet("QPushButton { background-color: rgb(200, 200, 200); color: rgb(100, 100, 100); }")
+            self.recordButton.setStyleSheet(
+                "QPushButton { background-color: rgb(200, 200, 200); color: rgb(100, 100, 100); border-radius: 3px; width: 80px; height: 25px;} QPushButton::hover {background-color: #afafaf;}")
+
 

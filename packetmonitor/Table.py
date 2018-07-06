@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import datetime
+import math
 
 class MyQTableWidgetItem(QTableWidgetItem):
     def __init__(self, str):
@@ -9,12 +10,45 @@ class MyQTableWidgetItem(QTableWidgetItem):
     def __lt__(self, other):
         data = self.data(0)
         other_data = other.data(0)
-        if data.isdigit() and other_data.isdigit():
+        data_type = self.get_type()
+        other_type = other.get_type()
+        if data_type == 'count' and other_type == 'count':
             return int(data) < int(other_data)
-        elif data[:len(data)-1].replace(" ", "").isdigit() and other_data[:len(other_data)-1].replace(" ", "").isdigit():
-            return int(data[:len(data)-1]) < int(other_data[:len(other_data)-1])
+        elif data_type == 'size' and other_type == 'size':
+            return self.get_size() < other.get_size()
         else:
             return data > other_data
+
+    def get_type(self):
+        data = self.data(0)
+        if data.isdigit():
+            return 'count'
+        data = data.replace(" ", "")
+        if data[len(data)-1] == 'B':
+            if data[len(data)-2] in ['K', 'M', 'G', 'T', 'P', 'E', 'Z', 'V']:
+                to_check = data[:len(data)-2]
+            else:
+                to_check = data[:len(data)-1]
+
+            try:
+                float(to_check)
+            except ValueError:
+                return 'name'
+
+            return 'size'
+        return 'name'
+
+    def get_size(self):
+        data = self.data(0)
+        data = data.replace(" ", "")
+        size_name = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+
+        for i in range(len(size_name)-1, -1, -1):
+            if size_name[i] in data:
+                if size_name[i] == 'B':
+                    return float(data[:len(data)-1])
+                return float(data[:len(data)-2]) * 1024 ** i
+
 
 
 class Table(QTableWidget, QObject):
@@ -24,8 +58,8 @@ class Table(QTableWidget, QObject):
         super().__init__(3, 4)
         self.setupUI(width, height)
         self.packets_info = packets_info
-        self.setColumnWidth(0, 270)
-        self.setColumnWidth(1, 300)
+        self.setColumnWidth(0, 100)
+        self.setColumnWidth(1, 370)
         self.setColumnWidth(2, 300)
         self.setColumnWidth(3, 300)
         self.cell_items = {}
@@ -34,6 +68,7 @@ class Table(QTableWidget, QObject):
         self.color_box_click_callback = color_box_click_callback
         self.is_record = True
         self.sort_by = 3
+        self.selected_time = None
 
     def setupUI(self, width, height):
         self.setGeometry(800, 200, width, height)
@@ -48,14 +83,12 @@ class Table(QTableWidget, QObject):
                     size_sum = 0
                     packet_count = 0
                     while time_count < unit * 100:
-                        size_per_unit = 0
                         for i in range(unit):
                             time = now-(time_count * unit + i)
                             if time in packets[packet_id]:
-                                size_per_unit += packets[packet_id][time]
-                        if size_per_unit > 0:
-                            packet_count += 1
-                        size_sum += size_per_unit
+                                if packets[packet_id][time] > 0:
+                                    packet_count += 1
+                                size_sum += packets[packet_id][time]
                         time_count += unit
 
                     info = self.packets_info[packet_id]
@@ -63,9 +96,12 @@ class Table(QTableWidget, QObject):
                     cell_datas.update({
                         packet_id: cell_data
                     })
+                self.selected_time = None
                 self.update_table_signal.emit(cell_datas)
         else:
-            if selected_time is not None:
+            if selected_time is not None or self.selected_time is not None:
+                if selected_time is None and self.selected_time is not None:
+                    selected_time = self.selected_time
                 cell_datas = {}
                 for packet_id in packets.keys():
                     size_sum = 0
@@ -81,6 +117,7 @@ class Table(QTableWidget, QObject):
                     cell_datas.update({
                         packet_id: cell_data
                     })
+                self.selected_time = selected_time
                 self.update_table_signal.emit(cell_datas)
             else:
                 cell_datas = {}
@@ -105,7 +142,6 @@ class Table(QTableWidget, QObject):
                         packet_id: cell_data
                     })
                 self.update_table_signal.emit(cell_datas)
-
 
 
     def get_darker_color(self, color):
@@ -139,7 +175,7 @@ class Table(QTableWidget, QObject):
         count = MyQTableWidgetItem(str(data[3]))
         count.setTextAlignment(Qt.AlignCenter)
 
-        size = MyQTableWidgetItem(str(data[4]) + " B")
+        size = MyQTableWidgetItem(self.convert_size(data[4]))
         size.setTextAlignment(Qt.AlignCenter)
 
         row_items = [button_widget, name, count, size]
@@ -181,4 +217,11 @@ class Table(QTableWidget, QObject):
     def update_time_unit(self, unit):
         self.unit = unit
 
-
+    def convert_size(self, size_bytes):
+        if size_bytes == 0:
+            return "0B"
+        size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+        i = int(math.floor(math.log(size_bytes, 1024)))
+        p = math.pow(1024, i)
+        s = round(size_bytes / p, 2)
+        return "%s %s" % (s, size_name[i])
