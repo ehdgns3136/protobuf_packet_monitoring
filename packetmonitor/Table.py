@@ -84,11 +84,12 @@ class Table(QTableWidget, QObject):
                     packet_count = 0
                     while time_count < unit * 100:
                         for i in range(unit):
-                            time = now-(time_count * unit + i)
+                            time = now-(time_count + i)
                             if time in packets[packet_id]:
-                                if packets[packet_id][time] > 0:
-                                    packet_count += 1
-                                size_sum += packets[packet_id][time]
+                                if len(packets[packet_id][time]) > 0:
+                                    packet_count += len(packets[packet_id][time])
+                                    for size in packets[packet_id][time]:
+                                        size_sum += size
                         time_count += unit
 
                     info = self.packets_info[packet_id]
@@ -109,8 +110,10 @@ class Table(QTableWidget, QObject):
                     for i in range(unit):
                         time = selected_time-i
                         if time in packets[packet_id]:
-                            size_sum += packets[packet_id][time]
-                            packet_count += 1
+                            if len(packets[packet_id][time]) > 0:
+                                packet_count += len(packets[packet_id][time])
+                                for size in packets[packet_id][time]:
+                                    size_sum += size
 
                     info = self.packets_info[packet_id]
                     cell_data = [info['visible'], info['color'], info['name'], packet_count, size_sum]
@@ -126,14 +129,13 @@ class Table(QTableWidget, QObject):
                     size_sum = 0
                     packet_count = 0
                     while time_count < unit * 100:
-                        size_per_unit = 0
                         for i in range(unit):
-                            time = self.stop_time - (time_count * unit + i)
+                            time = self.stop_time - (time_count + i)
                             if time in packets[packet_id]:
-                                size_per_unit += packets[packet_id][time]
-                        if size_per_unit > 0:
-                            packet_count += 1
-                        size_sum += size_per_unit
+                                if len(packets[packet_id][time]) > 0:
+                                    packet_count += len(packets[packet_id][time])
+                                    for size in packets[packet_id][time]:
+                                        size_sum += size
                         time_count += unit
 
                     info = self.packets_info[packet_id]

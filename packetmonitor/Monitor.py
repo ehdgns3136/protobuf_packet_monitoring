@@ -86,16 +86,16 @@ class PacketMonitor:
 
             if id in self.packets:
                 if now in self.packets[id]:
-                    self.packets[id][now] += int(size)
+                    self.packets[id][now].append(int(size))
                 else:
                     self.packets[id].update({
-                        now: int(size)
+                        now: [int(size)]
                     })
             else:
                 self.selected_packets.append(id)
                 self.packets.update({
                     id: {
-                        now: int(size)
+                        now: [int(size)]
                     }
                 })
             self.window.update_packet_data(self.packets, self.unit, self.selected_packets, self.selected_time, now)

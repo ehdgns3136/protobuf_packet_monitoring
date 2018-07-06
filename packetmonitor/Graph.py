@@ -176,11 +176,12 @@ class Graph(FigureCanvas, TimedAnimation):
                     count = 0
                     ydata = []
                     while count < 100:
-                        size = 0
+                        size_sum = 0
                         for i in range(now - count * unit, now - (count + 1) * unit, -1):
                             if i in packets[packet_id]:
-                                size += packets[packet_id][i]
-                        ydata.insert(0, size)
+                                for size in packets[packet_id][i]:
+                                    size_sum += size
+                        ydata.insert(0, size_sum)
                         count += 1
                     ydatas.update({
                         packet_id: ydata
@@ -208,11 +209,12 @@ class Graph(FigureCanvas, TimedAnimation):
                     count = 0
                     ydata = []
                     while count < 100:
-                        size = 0
+                        size_sum = 0
                         for i in range(now-count*unit, now-(count+1)*unit, -1):
                             if i in packets[packet_id]:
-                                size += packets[packet_id][i]
-                        ydata.insert(0, size)
+                                for size in packets[packet_id][i]:
+                                    size_sum += size
+                        ydata.insert(0, size_sum)
                         count += 1
                     ydatas.update({
                         packet_id: ydata
