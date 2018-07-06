@@ -32,7 +32,7 @@ class Graph(FigureCanvas, TimedAnimation):
         self.fig.canvas.mpl_connect("figure_leave_event", self.figure_leave)
         self.fig.canvas.mpl_connect("axes_enter_event", self.axes_enter)
         self.fig.canvas.mpl_connect("axes_leave_event", self.axes_leave)
-        self.fig.tight_layout(rect=(0, 0, 0.98, 1))
+        self.fig.tight_layout(rect=(0, 0, 0.97, 1))
         # self.fig.set_tight_layout({"h_pad": True})
         plt.style.use('seaborn-white')
 

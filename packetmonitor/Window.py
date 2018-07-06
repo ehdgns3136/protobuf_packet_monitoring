@@ -21,7 +21,7 @@ class MonitorWindow(QWidget):
         self.unitComboBox = QComboBox()
         self.unitComboBox.setStyleSheet("QComboBox {width: 30px; height: 25px;}")
 
-        units = ["1s", "5s", "10s", "30s", "1m", "10m", "30m", "1h"]
+        units = ["1s", "5s", "10s", "30s", "1m", "10m", "30m (slow)", "1h (slow)"]
         for unit in units:
             self.unitComboBox.addItem(unit)
         self.unitComboBox.activated[str].connect(self.unitComboBox_clicked)
