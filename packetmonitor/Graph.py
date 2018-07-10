@@ -76,15 +76,16 @@ class Graph(FigureCanvas, TimedAnimation):
         if len(self.xdatas) > 0:
             if self.is_record or self.force_draw:
                 self.ax.clear()
-                for packet_id in self.ydatas.keys():
+                ydatas = self.ydatas.copy()
+                for packet_id in ydatas.keys():
                     if packet_id in self.selected_packets:
-                        self.ax.plot(self.xticks, self.ydatas[packet_id], color=self.packets_info[packet_id]["color"])
+                        self.ax.plot(self.xticks, ydatas[packet_id], color=self.packets_info[packet_id]["color"])
                 self.ax.grid(color='#d0d0d0', linestyle='-', linewidth=0.3)
                 self.ax.yaxis.set_ticks_position("right")
 
             if self.vline is not None:
                 if self.current_mouse_area == "axes":
-                    if self.is_record or self.force_draw:
+                    if self.is_record or self.force_draw or self.need_update:
                         self.vline.set_visible(True)
                         self.ax.add_line(self.vline)
                     else:
@@ -94,7 +95,7 @@ class Graph(FigureCanvas, TimedAnimation):
 
             if self.time_annot is not None:
                 if self.current_mouse_area == "axes":
-                    if self.is_record or self.force_draw:
+                    if self.is_record or self.force_draw or self.need_update:
                         self.time_annot.set_visible(True)
                         self.ax._add_text(self.time_annot)
                     else:
@@ -104,7 +105,7 @@ class Graph(FigureCanvas, TimedAnimation):
 
             if self.hline is not None:
                 if self.current_mouse_area == "axes":
-                    if self.is_record or self.force_draw:
+                    if self.is_record or self.force_draw or self.need_update:
                         self.hline.set_visible(True)
                         self.ax.add_line(self.hline)
                     else:
@@ -114,7 +115,7 @@ class Graph(FigureCanvas, TimedAnimation):
 
             if self.size_annot is not None:
                 if self.current_mouse_area == "axes":
-                    if self.is_record or self.force_draw:
+                    if self.is_record or self.force_draw or self.need_update:
                         self.size_annot.set_visible(True)
                         self.ax._add_text(self.size_annot)
                     else:
@@ -333,15 +334,15 @@ class Graph(FigureCanvas, TimedAnimation):
                     self.size_annot = self.ax.annotate(self.convert_size(mouse_pos_y), xy=(xmax, mouse_pos_y), xytext=(5, 0), textcoords="offset points",
                                         bbox=dict(boxstyle="round", fc="black"), color="white",
                                         horizontalalignment="left", fontsize=8)
+            self.fig.canvas.draw_idle()
 
             if self.need_update:
                 self._draw_frame(0)
                 self.need_update = False
 
-            self.fig.canvas.draw_idle()
-
     def update_is_record(self, is_record):
         self.is_record = is_record
+        self.need_update = True
 
     def convert_size(self, size_bytes):
         if size_bytes == 0:
