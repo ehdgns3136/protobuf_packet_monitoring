@@ -7,12 +7,14 @@ import math
 
 
 class Graph(FigureCanvas, TimedAnimation):
-    def __init__(self, packets_info, graph_press_callback):
+    def __init__(self, packets_info, graph_press_callback, update_table_callback):
         self.fig = Figure(figsize=(10, 5))
         self.ax = self.fig.add_subplot(1, 1, 1)
         self.ydatas = {}
         self.xdatas = []
         self.xticks = [i for i in range(100)]
+        self.current_time = 0
+        self.temp_ydatas = {}
         self.unit = 1
         self.current_mouse_area = "out" # 'out', 'figure', 'axes'
         self.vline = None
@@ -23,7 +25,9 @@ class Graph(FigureCanvas, TimedAnimation):
         self.is_record = True
         self.packets_info = packets_info
         self.force_draw = False
+        self.need_update = False
         self.graph_press_callback = graph_press_callback
+        self.update_table_callback = update_table_callback
         FigureCanvas.__init__(self, self.fig)
         TimedAnimation.__init__(self, self.fig, interval=1000, blit=True)
         self.fig.canvas.mpl_connect("motion_notify_event", self.hover)
@@ -68,6 +72,7 @@ class Graph(FigureCanvas, TimedAnimation):
 
 
     def _draw_frame(self, framedata):
+        self.update_table_callback()
         if len(self.xdatas) > 0:
             if self.is_record or self.force_draw:
                 self.ax.clear()
@@ -79,29 +84,41 @@ class Graph(FigureCanvas, TimedAnimation):
 
             if self.vline is not None:
                 if self.current_mouse_area == "axes":
-                    self.vline.set_visible(True)
-                    self.ax.add_line(self.vline)
+                    if self.is_record or self.force_draw:
+                        self.vline.set_visible(True)
+                        self.ax.add_line(self.vline)
+                    else:
+                        self.vline.set_visible(True)
                 else:
                     self.vline.set_visible(False)
 
             if self.time_annot is not None:
                 if self.current_mouse_area == "axes":
-                    self.time_annot.set_visible(True)
-                    self.ax._add_text(self.time_annot)
+                    if self.is_record or self.force_draw:
+                        self.time_annot.set_visible(True)
+                        self.ax._add_text(self.time_annot)
+                    else:
+                        self.time_annot.set_visible(True)
                 else:
                     self.time_annot.set_visible(False)
 
             if self.hline is not None:
                 if self.current_mouse_area == "axes":
-                    self.hline.set_visible(True)
-                    self.ax.add_line(self.hline)
+                    if self.is_record or self.force_draw:
+                        self.hline.set_visible(True)
+                        self.ax.add_line(self.hline)
+                    else:
+                        self.hline.set_visible(True)
                 else:
                     self.hline.set_visible(False)
 
             if self.size_annot is not None:
                 if self.current_mouse_area == "axes":
-                    self.size_annot.set_visible(True)
-                    self.ax._add_text(self.size_annot)
+                    if self.is_record or self.force_draw:
+                        self.size_annot.set_visible(True)
+                        self.ax._add_text(self.size_annot)
+                    else:
+                        self.size_annot.set_visible(True)
                 else:
                     self.size_annot.set_visible(False)
 
@@ -155,7 +172,7 @@ class Graph(FigureCanvas, TimedAnimation):
     def new_frame_seq(self):
         return iter(range(100))
 
-    def update_packet_data(self, packets, unit, selected_packets, now, force_draw):
+    def update_packet_data(self, packets, unit, selected_packets, now, force_draw, updated_packet_id):
         self.selected_packets = selected_packets
 
         if force_draw:
@@ -172,20 +189,19 @@ class Graph(FigureCanvas, TimedAnimation):
 
             ydatas = {}
             for packet_id in selected_packets:
-                if packet_id in packets.keys():
-                    count = 0
-                    ydata = []
-                    while count < 100:
-                        size_sum = 0
-                        for i in range(now - count * unit, now - (count + 1) * unit, -1):
-                            if i in packets[packet_id]:
-                                for size in packets[packet_id][i]:
-                                    size_sum += size
-                        ydata.insert(0, size_sum)
-                        count += 1
-                    ydatas.update({
-                        packet_id: ydata
-                    })
+                count = 0
+                ydata = []
+                while count < 100:
+                    size_sum = 0
+                    for i in range(now - count * unit, now - (count + 1) * unit, -1):
+                        if i in packets[packet_id]:
+                            for size in packets[packet_id][i]:
+                                size_sum += size
+                    ydata.insert(0, size_sum)
+                    count += 1
+                ydatas.update({
+                    packet_id: ydata
+                })
 
             self.ydatas = ydatas
 
@@ -193,19 +209,17 @@ class Graph(FigureCanvas, TimedAnimation):
             self._draw_frame(0)
         elif self.is_record:
             count = 0
-            if (len(self.xdatas) > 0 and self.xdatas[len(self.xdatas) - 1] != now) or (len(self.xdatas) == 0):
+            if len(self.xdatas) == 0:
                 xdatas = []  # same for all
                 time = now
-
                 while count < 100:
                     xdatas.insert(0, time)
                     time -= unit
                     count += 1
                 self.xdatas = xdatas
 
-            ydatas = {}
-            for packet_id in selected_packets:
-                if packet_id in packets.keys():
+                ydatas = {}
+                for packet_id in selected_packets:
                     count = 0
                     ydata = []
                     while count < 100:
@@ -219,11 +233,49 @@ class Graph(FigureCanvas, TimedAnimation):
                     ydatas.update({
                         packet_id: ydata
                     })
+                self.ydatas = ydatas
+            elif len(self.xdatas) > 0:
+                if now % unit == 0:
+                    if now not in self.xdatas:
+                        self.xdatas.remove(self.xdatas[0])
+                        self.xdatas.append(now)
 
-            self.ydatas = ydatas
+                    if self.current_time != now:
+                        for packet_id in selected_packets:
+                            size_sum = 0
+                            for i in range(now-1, now-unit, -1):
+                                if i in packets[packet_id]:
+                                    for size in packets[packet_id][i]:
+                                        size_sum += size
+
+                            if packet_id in self.ydatas:
+                                ydata = self.ydatas[packet_id]
+                                ydata.remove(ydata[0])
+                                ydata.append(size_sum)
+                            else:
+                                ydata = [0 for i in range(0, 99, 1)]
+                                ydata.append(size_sum)
+                                self.ydatas.update({
+                                    packet_id: ydata
+                                })
+                        self.current_time = now
+
+                    if updated_packet_id is not None:
+                        updated_packet_size = packets[updated_packet_id][now][-1]
+                        if updated_packet_id in self.ydatas:
+                            self.ydatas[updated_packet_id][-1] += updated_packet_size
+                        else:
+                            ydata = [0 for i in range(0, 99, 1)]
+                            ydata.append(updated_packet_size)
+                            self.ydatas.update({
+                                updated_packet_id: ydata,
+                            })
+
 
     def update_time_unit(self, unit):
         self.unit = unit
+        self.event_source.interval = unit * 1000
+        self.need_update = True
 
     def hover(self, event):
         if event.inaxes == self.ax and len(self.xdatas) > 0 and self.current_mouse_area == "axes":
@@ -253,7 +305,7 @@ class Graph(FigureCanvas, TimedAnimation):
                     if self.vline.get_xdata() != mouse_pos_x:
                         self.vline.set_xdata(mouse_pos_x)
                 else:
-                    self.vline = self.ax.axvline(mouse_pos_x, ymin, ymax, linewidth=0.3, color="#000000")
+                    self.vline = self.ax.axvline(mouse_pos_x, ymin, ymax, linewidth=0.2, color="#000000")
 
                 if self.time_annot is not None:
                     if self.time_annot.xy[0] != mouse_pos_x:
@@ -271,7 +323,7 @@ class Graph(FigureCanvas, TimedAnimation):
                     if self.hline.get_ydata() != mouse_pos_y:
                         self.hline.set_ydata(mouse_pos_y)
                 else:
-                    self.hline = self.ax.axhline(mouse_pos_y, xmin, xmax, linewidth=0.3, color="#000000")
+                    self.hline = self.ax.axhline(mouse_pos_y, xmin, xmax, linewidth=0.2, color="#000000")
 
                 if self.size_annot is not None:
                     if self.size_annot.xy[1] != mouse_pos_y:
@@ -282,7 +334,9 @@ class Graph(FigureCanvas, TimedAnimation):
                                         bbox=dict(boxstyle="round", fc="black"), color="white",
                                         horizontalalignment="left", fontsize=8)
 
-
+            if self.need_update:
+                self._draw_frame(0)
+                self.need_update = False
 
             self.fig.canvas.draw_idle()
 

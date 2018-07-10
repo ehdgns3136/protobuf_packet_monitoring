@@ -25,6 +25,7 @@ class PacketMonitor:
 
         self.unit = 1
         self.is_record = True
+        self.first_record_time = None
 
         self.app = QApplication(sys.argv)
         self.window = MonitorWindow(
@@ -36,6 +37,7 @@ class PacketMonitor:
             self.graph_press_callback,
             self.packets_info
         )
+        self.packet_count = 0
 
     def get_random_color(self):
         r = lambda: random.randint(0, 255)
@@ -83,6 +85,9 @@ class PacketMonitor:
             data, addr = self.sock.recvfrom(self.byte_limit)
             id, size = data.decode().split(':')
             now = int(datetime.datetime.now().timestamp())
+            if self.first_record_time is None:
+                self.first_record_time = now
+                self.window.table.first_record_time = now
 
             if id in self.packets:
                 if now in self.packets[id]:
@@ -98,13 +103,13 @@ class PacketMonitor:
                         now: [int(size)]
                     }
                 })
-            self.window.update_packet_data(self.packets, self.unit, self.selected_packets, self.selected_time, now)
+            self.window.update_packet_data(self.packets, self.unit, self.selected_packets, self.selected_time, now, False, id)
 
     def periodic_update_canvas(self):
         while True:
             if len(self.packets) > 0:
                 now = int(datetime.datetime.now().timestamp())
-                self.window.update_packet_data(self.packets, self.unit, self.selected_packets, self.selected_time, now)
+                self.window.update_packet_data(self.packets, self.unit, self.selected_packets, self.selected_time, now, False)
             sleep(self.unit)
 
     def update_time_unit_callback(self, unit):
@@ -123,6 +128,10 @@ class PacketMonitor:
         self.is_record = not self.is_record
         self.selected_time = None
         self.window.update_is_record(self.is_record)
+        if self.is_record:
+            now = int(datetime.datetime.now().timestamp())
+            self.window.update_packet_data(self.packets, self.unit, self.selected_packets, self.selected_time, now, True)
+
 
     def color_box_click_callback(self, packet_id):
         self.packets_info[packet_id]["visible"] = not self.packets_info[packet_id]["visible"]

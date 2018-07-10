@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import datetime
 import math
+from time import time as current_time
 
 class MyQTableWidgetItem(QTableWidgetItem):
     def __init__(self, str):
@@ -52,7 +53,7 @@ class MyQTableWidgetItem(QTableWidgetItem):
 
 
 class Table(QTableWidget, QObject):
-    update_table_signal = pyqtSignal(dict)
+    update_table_signal = pyqtSignal()
 
     def __init__(self, width, height, packets_info, color_box_click_callback):
         super().__init__(3, 4)
@@ -62,45 +63,27 @@ class Table(QTableWidget, QObject):
         self.setColumnWidth(1, 370)
         self.setColumnWidth(2, 300)
         self.setColumnWidth(3, 300)
-        self.cell_items = {}
+        self.cell_datas = {}
         self.setShowGrid(False)
         self.update_table_signal.connect(self.update_table)
         self.color_box_click_callback = color_box_click_callback
         self.is_record = True
         self.sort_by = 3
         self.selected_time = None
+        self.stop_time = None
+        self.saved_time = 0
+        self.removed_time = 0
+        self.first_record_time = None
 
     def setupUI(self, width, height):
         self.setGeometry(800, 200, width, height)
         self.verticalHeader().hide()
 
-    def update_packet_data(self, packets, unit, selected_time, now):
-        if self.is_record:
-            if selected_time is None:
-                cell_datas = {}
-                for packet_id in packets.keys():
-                    time_count = 0
-                    size_sum = 0
-                    packet_count = 0
-                    while time_count < unit * 100:
-                        for i in range(unit):
-                            time = now-(time_count + i)
-                            if time in packets[packet_id]:
-                                if len(packets[packet_id][time]) > 0:
-                                    packet_count += len(packets[packet_id][time])
-                                    for size in packets[packet_id][time]:
-                                        size_sum += size
-                        time_count += unit
-
-                    info = self.packets_info[packet_id]
-                    cell_data = [info['visible'], info['color'], info['name'], packet_count, size_sum]
-                    cell_datas.update({
-                        packet_id: cell_data
-                    })
-                self.selected_time = None
-                self.update_table_signal.emit(cell_datas)
-        else:
+    def update_packet_data(self, packets, unit, selected_time, now, force_draw, updated_packet_id):
+        if force_draw:
+            # unit time change, graph click, stop record
             if selected_time is not None or self.selected_time is not None:
+                # graph click
                 if selected_time is None and self.selected_time is not None:
                     selected_time = self.selected_time
                 cell_datas = {}
@@ -120,30 +103,67 @@ class Table(QTableWidget, QObject):
                     cell_datas.update({
                         packet_id: cell_data
                     })
+                self.cell_datas = cell_datas
                 self.selected_time = selected_time
-                self.update_table_signal.emit(cell_datas)
+                self.update_table_signal.emit()
+            elif self.stop_time is not None:
+                self.initialize_cell_data(packets, unit, self.stop_time)
+                self.update_table_signal.emit()
             else:
-                cell_datas = {}
-                for packet_id in packets.keys():
-                    time_count = 0
-                    size_sum = 0
-                    packet_count = 0
-                    while time_count < unit * 100:
-                        for i in range(unit):
-                            time = self.stop_time - (time_count + i)
-                            if time in packets[packet_id]:
-                                if len(packets[packet_id][time]) > 0:
-                                    packet_count += len(packets[packet_id][time])
-                                    for size in packets[packet_id][time]:
-                                        size_sum += size
-                        time_count += unit
+                self.initialize_cell_data(packets, unit, now)
+                self.update_table_signal.emit()
+        elif self.is_record:
+            if len(self.cell_datas) == 0:
+                self.initialize_cell_data(packets, unit, now)
+                self.selected_time = None
+                self.update_table_signal.emit()
+            elif len(self.cell_datas) > 0:
+                if updated_packet_id is not None:
+                    if updated_packet_id in self.cell_datas:
+                        self.cell_datas[updated_packet_id][4] += packets[updated_packet_id][now][-1]
+                        self.cell_datas[updated_packet_id][3] += 1
+                    else:
+                        info = self.packets_info[updated_packet_id]
+                        cell_data = [info['visible'], info['color'], info['name'], 1, packets[updated_packet_id][now][0]]
+                        self.cell_datas.update({
+                            updated_packet_id: cell_data
+                        })
 
-                    info = self.packets_info[packet_id]
-                    cell_data = [info['visible'], info['color'], info['name'], packet_count, size_sum]
-                    cell_datas.update({
-                        packet_id: cell_data
-                    })
-                self.update_table_signal.emit(cell_datas)
+            if self.first_record_time is not None and self.first_record_time < now - unit * 100:
+                if self.removed_time != now - unit * 100:
+                    for packet_id in packets.keys():
+                        for i in range(unit):
+                            time = now - unit * 100 - i
+                            if time in packets[packet_id]:
+                                for size in packets[packet_id][time]:
+                                    self.cell_datas[packet_id][4] -= size
+                                    self.cell_datas[packet_id][3] -= 1
+
+                    self.removed_time = now - unit * 100
+
+
+    def initialize_cell_data(self, packets, unit, base_time):
+        cell_datas = {}
+        for packet_id in packets.keys():
+            time_count = 0
+            size_sum = 0
+            packet_count = 0
+            while time_count < unit * 100:
+                for i in range(unit):
+                    time = base_time - (time_count + i)
+                    if time in packets[packet_id]:
+                        if len(packets[packet_id][time]) > 0:
+                            packet_count += len(packets[packet_id][time])
+                            for size in packets[packet_id][time]:
+                                size_sum += size
+                time_count += unit
+
+            info = self.packets_info[packet_id]
+            cell_data = [info['visible'], info['color'], info['name'], packet_count, size_sum]
+            cell_datas.update({
+                packet_id: cell_data
+            })
+        self.cell_datas = cell_datas
 
 
     def get_darker_color(self, color):
@@ -183,7 +203,8 @@ class Table(QTableWidget, QObject):
         row_items = [button_widget, name, count, size]
         return row_items
 
-    def update_table(self, cell_datas):
+    def update_table(self):
+        cell_datas = self.cell_datas.copy()
         self.clear()
         self.setHorizontalHeaderLabels(['Visible/Color', 'Name', 'Count', 'Size(Byte)'])
 
@@ -212,6 +233,10 @@ class Table(QTableWidget, QObject):
 
     def update_is_record(self, is_record):
         self.is_record = is_record
+
+        if is_record:
+            self.selected_time = None
+            self.stop_time = None
 
         if not is_record:
             self.stop_time = int(datetime.datetime.now().timestamp())

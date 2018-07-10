@@ -21,7 +21,7 @@ class MonitorWindow(QWidget):
         self.unitComboBox = QComboBox()
         self.unitComboBox.setStyleSheet("QComboBox {width: 30px; height: 25px;}")
 
-        units = ["1s", "5s", "10s", "30s", "1m", "10m", "30m (slow)", "1h (slow)"]
+        units = ["1s", "5s", "10s", "30s", "1m", "10m", "30m", "1h"]
         for unit in units:
             self.unitComboBox.addItem(unit)
         self.unitComboBox.activated[str].connect(self.unitComboBox_clicked)
@@ -36,7 +36,7 @@ class MonitorWindow(QWidget):
         firstLayout.addWidget(self.unitComboBox)
 
         # secondLayout, Grpah
-        self.graph = Graph(packets_info, graph_press_callback)
+        self.graph = Graph(packets_info, graph_press_callback, self.update_table_callback)
         secondLayout = QHBoxLayout()
         secondLayout.addWidget(self.graph)
 
@@ -55,9 +55,9 @@ class MonitorWindow(QWidget):
     def unitComboBox_clicked(self, text):
         self.update_time_unit_callback(text)
 
-    def update_packet_data(self, packets, unit, selected_packets, selected_time, now, force_draw=False):
-        self.graph.update_packet_data(packets, unit, selected_packets, now, force_draw)
-        self.table.update_packet_data(packets, unit, selected_time, now)
+    def update_packet_data(self, packets, unit, selected_packets, selected_time, now, force_draw=False, updated_packet_id=None):
+        self.graph.update_packet_data(packets, unit, selected_packets, now, force_draw, updated_packet_id)
+        self.table.update_packet_data(packets, unit, selected_time, now, force_draw, updated_packet_id)
 
     def update_time_unit(self, unit):
         self.graph.update_time_unit(unit)
@@ -77,4 +77,5 @@ class MonitorWindow(QWidget):
             self.recordButton.setStyleSheet(
                 "QPushButton { background-color: rgb(200, 200, 200); color: rgb(100, 100, 100); border-radius: 3px; width: 80px; height: 25px;} QPushButton::hover {background-color: #afafaf;}")
 
-
+    def update_table_callback(self):
+        self.table.update_table_signal.emit()

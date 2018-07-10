@@ -1,2 +1,5 @@
-a = "hello"
-print(a[:2])
+import time
+
+while True:
+    print(time.time())
+    time.sleep(1)
