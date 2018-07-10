@@ -3,7 +3,7 @@ import socket
 import re
 import datetime
 import sys
-from time import sleep, time
+from time import sleep
 from PyQt5.QtWidgets import *
 from .Window import MonitorWindow
 import random

@@ -2,7 +2,6 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import datetime
 import math
-from time import time as current_time
 
 class MyQTableWidgetItem(QTableWidgetItem):
     def __init__(self, str):
