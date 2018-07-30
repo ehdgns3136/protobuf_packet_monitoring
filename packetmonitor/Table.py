@@ -71,8 +71,9 @@ class Table(QTableWidget, QObject):
         self.selected_time = None
         self.stop_time = None
         self.saved_time = 0
-        self.removed_time = 0
+        self.next_remove_time = 0
         self.first_record_time = None
+        self.removed_unit_time = 0
 
     def setupUI(self, width, height):
         self.setGeometry(800, 200, width, height)
@@ -128,17 +129,21 @@ class Table(QTableWidget, QObject):
                             updated_packet_id: cell_data
                         })
 
-            if self.first_record_time is not None and self.first_record_time < now - unit * 100:
-                if self.removed_time != now - unit * 100:
+            if self.first_record_time is not None and self.first_record_time <= now - unit * 101:
+                if self.next_remove_time == 0 or self.next_remove_time == now - unit * 100:
                     for packet_id in packets.keys():
                         for i in range(unit):
                             time = now - unit * 100 - i
                             if time in packets[packet_id]:
                                 for size in packets[packet_id][time]:
                                     self.cell_datas[packet_id][4] -= size
+                                    if self.cell_datas[packet_id][4] < 0:
+                                        self.cell_datas[packet_id][4] = 0
                                     self.cell_datas[packet_id][3] -= 1
+                                    if self.cell_datas[packet_id][3] < 0:
+                                        self.cell_datas[packet_id][3] = 0
 
-                    self.removed_time = now - unit * 100
+                    self.next_remove_time = now - unit * 100 + unit
 
 
     def initialize_cell_data(self, packets, unit, base_time):
@@ -240,14 +245,21 @@ class Table(QTableWidget, QObject):
         if not is_record:
             self.stop_time = int(datetime.datetime.now().timestamp())
 
+        self.next_remove_time = 0
+
     def update_time_unit(self, unit):
         self.unit = unit
+        self.next_remove_time = 0
 
     def convert_size(self, size_bytes):
-        if size_bytes == 0:
-            return "0B"
-        size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
-        i = int(math.floor(math.log(size_bytes, 1024)))
-        p = math.pow(1024, i)
-        s = round(size_bytes / p, 2)
-        return "%s %s" % (s, size_name[i])
+        try:
+            if size_bytes == 0:
+                return "0B"
+            size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+            i = int(math.floor(math.log(size_bytes, 1024)))
+            p = math.pow(1024, i)
+
+            s = round(size_bytes / p, 2)
+            return "%s %s" % (s, size_name[i])
+        except:
+            print(size_bytes)
