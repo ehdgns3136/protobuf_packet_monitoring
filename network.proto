@@ -759,8 +759,8 @@ message Packet {
 
         GetPartyMatchingInfo = 660;
         GetPartyMatchingInfoResult = 661;
-        PartyMatchingReady = 662;
-        PartyMatchingReadyResult = 663;
+        PreparePartyEnterField = 662;
+        PreparePartyEnterFieldResult = 663;
         EXPUpdated = 664;
 
         StartQuestDrama = 665;
@@ -776,6 +776,40 @@ message Packet {
         ShowRaceDropItem = 672;
         HideRaceDropItem = 673;
 
+        ClearThisCharacter = 674;
+        ClearThisCharacterResult = 675;
+
+        TimerUpdated = 676;
+
+        InviteInfiniteArena = 677;
+        AnswerInviteInfiniteArena = 678;
+        ShowRequestInviteInfiniteArena = 679;
+
+        UnitGoAroundMove = 680;
+        UnitGoTargetMove = 681;
+        UnitStopMove = 682;
+        UnitSetDirection = 683;
+        RequestUnitsPositionUpdate = 684;
+
+        GetAppliedClanList = 685;
+        GetAppliedClanListResult = 686;
+        CancelJoinClan = 687;
+        CancelJoinClanResult = 688;
+        GetClanDonationInfo = 689;
+        GetClanDonationInfoResult = 690;
+
+        CancelCraft = 691;
+        CancelCraftResult = 692;
+        SetQuestFavorite = 693;
+
+        Warp = 694;
+        WarpResult = 695;
+
+        GotMail = 696;
+        GetItem = 697;
+        GetItemResult = 698;
+
+        UpgradeJob = 699;
         /*
             Analytics
         */
